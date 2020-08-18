@@ -77,7 +77,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                             });
                           },
                           child: Padding(
-                            padding: EdgeInsets.only(right: 15.0, bottom: 15.0),
+                            padding: EdgeInsets.all(16),
                             child: Text(
                               "NEXT",
                               style: TextStyle(
@@ -101,7 +101,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                                     builder: (context) => LocationLogin()));
                           },
                           child: Padding(
-                            padding: EdgeInsets.only(left: 15.0, bottom: 15.0),
+                            padding: EdgeInsets.all(16),
                             child: Text(
                               "SKIP",
                               style: TextStyle(
