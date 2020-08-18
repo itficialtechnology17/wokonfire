@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:wokonfire/page/home.dart';
 import 'package:wokonfire/page/introduction.dart';
 
 class Splash extends StatefulWidget {
@@ -20,8 +21,7 @@ class _StateSplash extends State<Splash> {
 
   moveToNextPage() {
     Navigator.pop(context);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => Introduction()));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
   }
 
   @override

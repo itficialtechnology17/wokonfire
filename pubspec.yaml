@@ -57,6 +57,19 @@ flutter:
      - assets/images/ic_onboard_04.png
      - assets/images/ic_logo.png
      - assets/images/ic_login_bg.png
+     - assets/icons/close.png
+     - assets/icons/heart.png
+     - assets/icons/home.png
+     - assets/icons/mail.png
+     - assets/icons/reload.png
+     - assets/icons/search.png
+     - assets/icons/setting.png
+     - assets/icons/tag.png
+     - assets/icons/user.png
+     - assets/icons/watch.png
+     - assets/icons/buy.png
+     - assets/icons/offer.png
+     - assets/icons/test.png
 
   fonts:
     - family: Roboto
