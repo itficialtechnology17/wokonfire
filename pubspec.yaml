@@ -31,6 +31,10 @@ dependencies:
   google_maps_place_picker: ^0.9.5
   google_maps_webservice: ^0.0.18
   provider: ^4.3.2
+  shimmer: ^1.1.1
+  google_fonts: ^1.1.0
+  flutter_rating_bar: ^3.0.1+1
+  flutter_swiper: ^1.1.6
 
 
 
@@ -70,6 +74,8 @@ flutter:
      - assets/icons/buy.png
      - assets/icons/offer.png
      - assets/icons/test.png
+     - assets/icons/
+     - assets/images/
 
   fonts:
     - family: Roboto

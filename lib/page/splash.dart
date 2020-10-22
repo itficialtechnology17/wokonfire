@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:wokonfire/page/home.dart';
-import 'package:wokonfire/page/introduction.dart';
 
 class Splash extends StatefulWidget {
   @override

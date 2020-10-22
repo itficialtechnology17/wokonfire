@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:wokonfire/tab/cart_tab.dart';
+import 'package:wokonfire/tab/home_tab.dart';
+import 'package:wokonfire/tab/search_tab.dart';
+import 'package:wokonfire/utils/custom_color.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -13,78 +17,53 @@ class _StateHome extends State<Home> {
 
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 
+  int selectedIndex = 0;
+  final List<Widget> _children = [HomeTab(), SearchTab(), CartTab(), HomeTab()];
+
   @override
   Widget build(BuildContext context) {
+    final labelTextStyle =
+        Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 11.0);
+
     return Scaffold(
-      body: Container(),
-      bottomNavigationBar: Container(
-        height: MediaQuery.of(context).size.height * 0.08,
-        width: MediaQuery.of(context).size.width,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage("assets/icons/home.png"),
-                    width: iconWidth,
-                    height: iconHeight,
-                    fit: BoxFit.contain,
-                  ),
-//                  Text("Home".toUpperCase(), style: smallTextStyle,)
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(Icons.home),
-//                  Text("Search".toUpperCase(), style: smallTextStyle)
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage("assets/icons/buy.png"),
-                    width: iconWidth,
-                    height: iconHeight,
-                    fit: BoxFit.fitHeight,
-                  ),
-//                  Text("Cart".toUpperCase(), style: smallTextStyle)
-                ],
-              ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image(
-                    image: AssetImage("assets/icons/test.png"),
-                    width: iconWidth,
-                    height: iconHeight,
-                    fit: BoxFit.fitHeight,
-                  ),
-//                  Text("Cart".toUpperCase(), style: smallTextStyle)
-                ],
-              ),
-            )
-          ],
-        ),
+      body: _children[selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: darkOrange,
+        unselectedItemColor: Colors.grey,
+        currentIndex: selectedIndex,
+        selectedLabelStyle: labelTextStyle,
+        unselectedLabelStyle: labelTextStyle,
+        onTap: (index) {
+          setState(() {
+            selectedIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            title: Text('HOME'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text('SEARCH'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.add_shopping_cart),
+            title: Text('CART'),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person_outline),
+            title: Text('ACCOUNT'),
+          ),
+        ],
       ),
     );
+  }
+
+  void _incrementTab(index) {
+    setState(() {
+      selectedIndex = index;
+    });
   }
 }
