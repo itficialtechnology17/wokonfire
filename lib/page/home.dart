@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wokonfire/tab/cart_tab.dart';
 import 'package:wokonfire/tab/home_tab.dart';
+import 'package:wokonfire/tab/profile_tab.dart';
 import 'package:wokonfire/tab/search_tab.dart';
 import 'package:wokonfire/utils/custom_color.dart';
 
@@ -18,7 +19,12 @@ class _StateHome extends State<Home> {
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 
   int selectedIndex = 0;
-  final List<Widget> _children = [HomeTab(), SearchTab(), CartTab(), HomeTab()];
+  final List<Widget> _children = [
+    HomeTab(),
+    SearchTab(),
+    CartTab(),
+    ProfileTab()
+  ];
 
   @override
   Widget build(BuildContext context) {

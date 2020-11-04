@@ -19,8 +19,8 @@ class _StateSplash extends State<Splash> {
   }
 
   moveToNextPage() {
-    Navigator.pop(context);
-    Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => Home()));
   }
 
   @override

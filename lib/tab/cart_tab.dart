@@ -124,12 +124,12 @@ class _OrderViewState extends State<_OrderView> {
               ),
             ],
           ),
-          verticalSpaceExtraLarge(),
-          CustomDividerView(
+          /*verticalSpaceExtraLarge(),*/
+          /*    CustomDividerView(
             dividerHeight: 1.0,
             color: Colors.grey[400],
-          ),
-          verticalSpaceMedium(),
+          ),*/
+          /* verticalSpaceMedium(),
           Row(
             children: <Widget>[
               Icon(Icons.library_books, color: Colors.grey[700]),
@@ -143,7 +143,7 @@ class _OrderViewState extends State<_OrderView> {
                 ),
               )
             ],
-          ),
+          ),*/
           verticalSpaceMedium(),
         ],
       ),
@@ -281,7 +281,7 @@ class _AddressPaymentView extends StatelessWidget {
     return Container(
       child: Column(
         children: <Widget>[
-          Container(
+          /*Container(
             height: 50.0,
             color: Colors.black,
             child: Row(
@@ -297,8 +297,8 @@ class _AddressPaymentView extends StatelessWidget {
                 )
               ],
             ),
-          ),
-          Container(
+          ),*/
+          /* Container(
             padding: const EdgeInsets.all(20.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -366,14 +366,14 @@ class _AddressPaymentView extends StatelessWidget {
                 verticalSpaceMedium(),
               ],
             ),
-          ),
+          ),*/
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               Expanded(
                 child: Container(
                   padding: const EdgeInsets.all(10.0),
-                  color: Colors.grey[200],
+                  color: Colors.white,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[

@@ -7,9 +7,6 @@ import 'package:wokonfire/page/customplacepicker.dart';
 import 'package:wokonfire/page/home.dart';
 import 'package:wokonfire/page/login.dart';
 
-var latitude = "";
-var logitude = "";
-
 class LocationLogin extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
@@ -20,6 +17,11 @@ class LocationLogin extends StatefulWidget {
 class _StateLocationLogin extends State<LocationLogin> {
   var isLoginDone = false;
   var isLocationAdded = false;
+  var latitude = "";
+  var logitude = "";
+  var address = "";
+  var city = "";
+  var area = "";
   static final kInitialPosition = LatLng(-33.8567844, 151.213108);
 
   @override
