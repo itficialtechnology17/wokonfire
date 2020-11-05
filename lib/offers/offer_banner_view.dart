@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:wokonfire/controller/home_controller.dart';
 
 class OfferBannerView extends StatelessWidget {
-  final List<String> images = [
-    'assets/images/banner1.jpg',
-    'assets/images/banner2.jpg',
-    'assets/images/banner3.jpg',
-    'assets/images/banner5.jpg',
-  ];
+  HomeController homeController;
+  OfferBannerView(this.homeController);
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -21,9 +19,9 @@ class OfferBannerView extends StatelessWidget {
           duration: 500,
           itemWidth: double.infinity,
           pagination: SwiperPagination(),
-          itemCount: images.length,
-          itemBuilder: (BuildContext context, int index) => Image.asset(
-            images[index],
+          itemCount: homeController.arrOfSlider.length,
+          itemBuilder: (BuildContext context, int index) => Image.network(
+            homeController.arrOfSlider[index].hbImage,
             fit: BoxFit.cover,
           ),
           autoplay: true,

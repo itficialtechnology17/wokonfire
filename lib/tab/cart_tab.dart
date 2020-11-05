@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:wokonfire/utils/custom_color.dart';
+import 'package:flutter/widgets.dart';
+import 'package:get/get.dart';
+import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
+import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
-import 'package:wokonfire/widgets/veg_badge_view.dart';
 
 class CartTab extends StatelessWidget {
   @override
@@ -32,122 +34,106 @@ class CartTab extends StatelessWidget {
   }
 }
 
-class _OrderView extends StatefulWidget {
-  @override
-  _OrderViewState createState() => _OrderViewState();
-}
-
-class _OrderViewState extends State<_OrderView> {
-  int cartCount = 1;
+class _OrderView extends StatelessWidget {
+  final CartController _cartController = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(10.0),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Image.asset(
-                'assets/images/food1.jpg',
-                height: 60.0,
-                width: 60.0,
-              ),
-              horizontalSpaceSmall(),
-              Column(
+    return Obx(() => ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          itemCount: _cartController.arrOfCart.length,
+          shrinkWrap: true,
+          itemBuilder: (context, index) {
+            return Container(
+              padding: const EdgeInsets.all(10.0),
+              child: Column(
                 children: <Widget>[
-                  Text('Breakfast Express',
-                      style: Theme.of(context).textTheme.subtitle2),
-                  verticalSpaceExtraSmall(),
-                  Text('OMR Perungudi',
-                      style: Theme.of(context).textTheme.bodyText1)
-                ],
-              )
-            ],
-          ),
-          verticalSpaceLarge(),
-          Row(
-            children: <Widget>[
-              VegBadgeView(),
-              horizontalSpaceSmall(),
-              Flexible(
-                child: Text(
-                  'Aloo Paratha with Curd and Pickle',
-                  style: Theme.of(context).textTheme.bodyText1,
-                ),
-              ),
-              horizontalSpaceSmall(),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                height: 35.0,
-                width: 100.0,
-                decoration: BoxDecoration(
-                  border: Border.all(
-                    color: Colors.grey,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Image.network(
+                        storageUrl + _cartController.arrOfCart[index].foodImage,
+                        height: Get.width * 0.25,
+                        width: Get.width * 0.25,
+                      ),
+                      horizontalSpaceSmall(),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            verticalSpaceSmall(),
+                            Text(_cartController.arrOfCart[index].foodName,
+                                style: Theme.of(context).textTheme.subtitle1),
+                            verticalSpaceSmall(),
+                            RichText(
+                              overflow: TextOverflow.fade,
+                              text: TextSpan(
+                                  text: _cartController
+                                      .arrOfCart[index].customization,
+                                  style: Theme.of(context).textTheme.bodyText2),
+                            ),
+                            verticalSpaceSmall(),
+                            Text(
+                                'Rs. ' +
+                                    _cartController.arrOfCart[index].finalPrice,
+                                style: Theme.of(context).textTheme.subtitle2),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Container(),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 5.0),
+                                  height: 35.0,
+                                  width: 100.0,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.grey,
+                                    ),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: <Widget>[
+                                      InkWell(
+                                        child: Icon(Icons.remove,
+                                            color: Colors.green),
+                                        onTap: () {
+                                          _cartController.removeFromCart(index);
+                                        },
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                          _cartController
+                                              .arrOfCart[index].quantity
+                                              .toString(),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .subtitle2
+                                              .copyWith(fontSize: 16.0)),
+                                      Spacer(),
+                                      InkWell(
+                                        child: Icon(Icons.add,
+                                            color: Colors.green),
+                                        onTap: () {
+                                          _cartController.addAddMore(index);
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                )
+                              ],
+                            )
+                          ],
+                        ),
+                      )
+                    ],
                   ),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    InkWell(
-                      child: Icon(Icons.remove, color: Colors.green),
-                      onTap: () {
-                        if (cartCount > 0) {
-                          setState(() {
-                            cartCount -= 1;
-                          });
-                        }
-                      },
-                    ),
-                    Spacer(),
-                    Text('$cartCount',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(fontSize: 16.0)),
-                    Spacer(),
-                    InkWell(
-                      child: Icon(Icons.add, color: Colors.green),
-                      onTap: () {
-                        setState(() {
-                          cartCount += 1;
-                        });
-                      },
-                    )
-                  ],
-                ),
+                ],
               ),
-              horizontalSpaceSmall(),
-              Text(
-                'Rs125',
-                style: Theme.of(context).textTheme.bodyText1,
-              ),
-            ],
-          ),
-          /*verticalSpaceExtraLarge(),*/
-          /*    CustomDividerView(
-            dividerHeight: 1.0,
-            color: Colors.grey[400],
-          ),*/
-          /* verticalSpaceMedium(),
-          Row(
-            children: <Widget>[
-              Icon(Icons.library_books, color: Colors.grey[700]),
-              horizontalSpaceSmall(),
-              Expanded(
-                child: RichText(
-                  text: TextSpan(
-                      text:
-                          "Any restaurant request? We will try our best to convey it",
-                      style: TextStyle(color: Colors.black)),
-                ),
-              )
-            ],
-          ),*/
-          verticalSpaceMedium(),
-        ],
-      ),
-    );
+            );
+          },
+        ));
   }
 }
 

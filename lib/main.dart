@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:wokonfire/page/splash.dart';
 import 'package:wokonfire/utils/app_theme.dart';
 
@@ -8,9 +10,17 @@ void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Colors.transparent, // transparent status bar
   ));
-  runApp(MyApp());
+  runApp(
+    GetMaterialApp(
+      debugShowCheckedModeBanner: false,
+      defaultTransition: Transition.rightToLeft,
+      home: Splash(),
+      theme: appPrimaryTheme(),
+    ),
+  );
 }
 
+/*
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -19,4 +29,4 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: appPrimaryTheme());
   }
-}
+}*/

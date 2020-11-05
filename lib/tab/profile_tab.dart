@@ -106,7 +106,7 @@ class _AppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
-                'VINOTH',
+                'NENS',
                 style: Theme.of(context)
                     .textTheme
                     .headline6
@@ -127,7 +127,7 @@ class _AppBar extends StatelessWidget {
           verticalSpaceSmall(),
           Row(
             children: <Widget>[
-              Text('8870123456', style: subtitleStyle),
+              Text('7600978848', style: subtitleStyle),
               horizontalSpaceSmall(),
               ClipOval(
                 child: Container(
@@ -137,7 +137,7 @@ class _AppBar extends StatelessWidget {
                 ),
               ),
               horizontalSpaceSmall(),
-              Text('vinothvino@icloud.com', style: subtitleStyle)
+              Text('nens@gmail.com', style: subtitleStyle)
             ],
           ),
           verticalSpaceLarge(),

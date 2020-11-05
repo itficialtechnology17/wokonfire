@@ -32,8 +32,9 @@ class _StateSplash extends State<Splash> {
           child: Padding(
             padding: EdgeInsets.all(16),
             child: Center(
-              child: Image(
-                image: AssetImage("assets/images/ic_logo.png"),
+              child: CircleAvatar(
+                radius: 150,
+                backgroundImage: AssetImage("assets/images/ic_logo.png"),
               ),
             ),
           )),
