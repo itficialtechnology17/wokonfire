@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_place_picker/google_maps_place_picker.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wokonfire/constant/constantskey.dart';
 import 'package:wokonfire/constant/customcolor.dart';
-import 'package:wokonfire/page/customplacepicker.dart';
 import 'package:wokonfire/page/home.dart';
+import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/page/login.dart';
 
 class LocationLogin extends StatefulWidget {
@@ -56,9 +55,9 @@ class _StateLocationLogin extends State<LocationLogin> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CustomPlacePicker(
-                                apiKey: ConstantsKey
-                                    .GOOGLE_API_KEY, // Put YOUR OWN KEY here.
+                              builder: (context) => LocationPicker(
+                                apiKey:
+                                    GOOGLE_API_KEY, // Put YOUR OWN KEY here.
                                 onPlacePicked: (result) {
                                   latitude =
                                       result.geometry.location.lat.toString();
@@ -86,7 +85,7 @@ class _StateLocationLogin extends State<LocationLogin> {
                           width: MediaQuery.of(context).size.width * 0.7,
                           height: MediaQuery.of(context).size.height * 0.07,
                           decoration: BoxDecoration(
-                              color: CustomColor.colorTheme,
+                              color: colorTheme,
                               borderRadius: BorderRadius.circular(4)),
                           child: Center(
                             child: Text(

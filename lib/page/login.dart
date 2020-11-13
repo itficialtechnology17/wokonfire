@@ -150,7 +150,7 @@ class _StateLogin extends State<Login> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.07,
                                   decoration: BoxDecoration(
-                                      color: CustomColor.colorTheme,
+                                      color: colorTheme,
                                       borderRadius: BorderRadius.circular(4)),
                                   child: Center(
                                     child: Text(
@@ -421,7 +421,7 @@ class _StateLogin extends State<Login> {
                                   height:
                                       MediaQuery.of(context).size.height * 0.07,
                                   decoration: BoxDecoration(
-                                      color: CustomColor.colorTheme,
+                                      color: colorTheme,
                                       borderRadius: BorderRadius.circular(4)),
                                   child: Center(
                                     child: Text(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:get/instance_manager.dart';
 import 'package:wokonfire/utils/custom_color.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
@@ -52,24 +54,30 @@ class _StateProfileTab extends State<ProfileTab> {
                   ),
                 ),
                 CustomDividerView(),
-                Row(
-                  children: <Widget>[
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.only(left: 10.0),
-                      height: 50.0,
-                      child: Text(
-                        'LOGOUT',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(fontSize: 16.0),
+                InkWell(
+                  onTap: () {
+                    Get.changeTheme(
+                        Get.isDarkMode ? ThemeData.light() : ThemeData.dark());
+                  },
+                  child: Row(
+                    children: <Widget>[
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(left: 10.0),
+                        height: 50.0,
+                        child: Text(
+                          'LOGOUT',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              .copyWith(fontSize: 16.0),
+                        ),
                       ),
-                    ),
-                    Spacer(),
-                    Icon(Icons.power_settings_new),
-                    horizontalSpaceSmall(),
-                  ],
+                      Spacer(),
+                      Icon(Icons.power_settings_new),
+                      horizontalSpaceSmall(),
+                    ],
+                  ),
                 ),
                 Container(
                   alignment: Alignment.topCenter,

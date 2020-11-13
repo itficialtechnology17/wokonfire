@@ -2,11 +2,15 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constantskey.dart';
 import 'package:wokonfire/controller/home_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
+import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/utils/shimmer_page.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/utils/url.dart';
+import 'package:wokonfire/widgets/custom_button.dart';
+import 'package:wokonfire/widgets/entry_field.dart';
 import 'package:wokonfire/widgets/veg_badge_view.dart';
 
 class HomeTab extends StatelessWidget {
@@ -20,25 +24,116 @@ class HomeTab extends StatelessWidget {
           return <Widget>[
             SliverAppBar(
               pinned: true,
-              title: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Now -> Vesu",
-                    style: Theme.of(context)
-                        .textTheme
-                        .headline3
-                        .copyWith(fontSize: 20.0),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text("HG-2, SNS Platina, JH Ambani School",
+              title: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => LocationPicker(
+                          apiKey: GOOGLE_API_KEY, // Put YOUR OWN KEY here.
+                          onPlacePicked: (result) {
+                            var latitude =
+                                result.geometry.location.lat.toString();
+                            var logitude =
+                                result.geometry.location.lng.toString();
+                            Navigator.of(context).pop();
+                          },
+                          initialPosition: kInitialPosition,
+                          useCurrentLocation: true,
+                          selectedPlaceWidgetBuilder:
+                              (_, selectedPlace, state, isSearchBarFocused) {
+                            return isSearchBarFocused
+                                ? Container()
+                                : showModalBottomSheet(
+                                    context: context,
+                                    builder: (BuildContext bc) {
+                                      return Container(
+                                        child: new Wrap(children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 18.0, left: 12),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Column(
+                                                  children: [
+                                                    SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    Icon(
+                                                      Icons.check_box,
+                                                      size: 20,
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Flexible(
+                                                  child: EntryField(
+                                                    horizontalPadding: 0,
+                                                    labelFontSize: 15,
+                                                    labelFontWeight:
+                                                        FontWeight.w400,
+                                                    controller:
+                                                        TextEditingController()
+                                                          ..text,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                bottom: 20.0,
+                                                left: 12,
+                                                right: 12),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.location_on,
+                                                    size: 20),
+                                                SizedBox(width: 15),
+                                                Text(
+                                                  '1124, Patestine Street, Jackson Tower,\nNear City Garden, New York, USA',
+                                                  style:
+                                                      TextStyle(fontSize: 15),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          CustomButton(
+                                            onTap: () => Navigator.pop(context),
+                                          ),
+                                        ]),
+                                      );
+                                    });
+                          }),
+                    ),
+                  );
+                },
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Now -> Vesu",
                       style: Theme.of(context)
                           .textTheme
-                          .headline5
-                          .copyWith(fontSize: 12.0))
-                ],
+                          .headline3
+                          .copyWith(fontSize: 20.0),
+                    ),
+                    SizedBox(
+                      height: 4,
+                    ),
+                    Text("HG-2, SNS Platina, JH Ambani School",
+                        style: Theme.of(context)
+                            .textTheme
+                            .headline5
+                            .copyWith(fontSize: 12.0))
+                  ],
+                ),
               ),
               actions: [
                 InkWell(
