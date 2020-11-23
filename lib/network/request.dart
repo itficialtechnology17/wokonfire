@@ -14,4 +14,8 @@ class Request {
   Future<http.Response> get() {
     return http.get(urlBase + url).timeout(Duration(minutes: 2));
   }
+
+  Future<http.Response> delete() {
+    return http.delete(urlBase + url).timeout(Duration(minutes: 2));
+  }
 }

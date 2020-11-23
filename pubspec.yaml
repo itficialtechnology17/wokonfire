@@ -17,6 +17,10 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 version: 1.0.0+1
 
+#export PATH="/Users/amit/Desktop/ITficialProject/FlutterSdk/flutter/bin:$PATH"
+#flutter pub run flutter_launcher_icons:main
+#flutter build apk --release --target-platform=android-arm64
+
 environment:
   sdk: ">=2.7.0 <3.0.0"
 
@@ -37,7 +41,10 @@ dependencies:
   flutter_swiper: ^1.1.6
   get: ^3.13.2
   dots_indicator:
-  http:
+  ionicons: ^0.0.3
+  http: ^0.12.0
+  shared_preferences: ^0.5.6
+  fluttertoast: ^7.1.1
 
 
 
@@ -48,10 +55,9 @@ dev_dependencies:
   flutter_launcher_icons:
 
 flutter_icons:
-  android: true
-  ios: true
-  image_path: "assets/images/ic_logo.png"
-
+    android: true
+    ios: true
+    image_path: "assets/images/ic_logo.png"
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

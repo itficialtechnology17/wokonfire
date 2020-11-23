@@ -2,7 +2,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wokonfire/constant/constantskey.dart';
+import 'package:ionicons/ionicons.dart';
+import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/controller/home_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/location_picker.dart';
@@ -118,16 +120,16 @@ class HomeTab extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     Text(
-                      "Now -> Vesu",
+                      "Now -> $currentArea",
                       style: Theme.of(context)
                           .textTheme
-                          .headline3
+                          .bodyText2
                           .copyWith(fontSize: 20.0),
                     ),
                     SizedBox(
                       height: 4,
                     ),
-                    Text("HG-2, SNS Platina, JH Ambani School",
+                    Text(currentAddress,
                         style: Theme.of(context)
                             .textTheme
                             .headline5
@@ -142,15 +144,15 @@ class HomeTab extends StatelessWidget {
                     child: Row(
                       children: [
                         Icon(
-                          Icons.local_offer,
+                          Ionicons.pricetag_outline,
                           size: 20,
                         ),
                         horizontalSpaceExtraSmall(),
                         Text(
-                          'Offer',
+                          'Offer'.toUpperCase(),
                           style: Theme.of(context)
                               .textTheme
-                              .subtitle2
+                              .bodyText1
                               .copyWith(fontSize: 18.0, color: Colors.black),
                         ),
                         horizontalSpaceExtraSmall(),
@@ -602,6 +604,7 @@ class HomeTab extends StatelessWidget {
     );
   }
 }
+
 /*
 
 class _StateHomeTab extends State<HomeTab> {

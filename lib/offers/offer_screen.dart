@@ -12,7 +12,7 @@ class OffersScreen extends StatelessWidget {
       length: 2,
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.white,
           title: Text(
             'OFFERS',
             style:
@@ -22,7 +22,7 @@ class OffersScreen extends StatelessWidget {
             indicatorColor: Colors.black,
             tabs: <Widget>[
               Tab(child: Text('RESTAURANT OFFERS')),
-              Tab(child: Text('PAYMENT OFFERS/COUPONS')),
+              Tab(child: Text('OTHERS OFFERS')),
             ],
           ),
         ),

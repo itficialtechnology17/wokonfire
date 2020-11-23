@@ -20,6 +20,7 @@ class SearchController extends GetxController {
       'c_id': "26",
       'restaurant_id': "1",
     });
+
     request.post().then((value) {
       final responseData = json.decode(value.body);
 

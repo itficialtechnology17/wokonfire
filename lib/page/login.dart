@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wokonfire/constant/customcolor.dart';
+import 'package:wokonfire/utils/custom_color.dart';
 
 class Login extends StatefulWidget {
   @override

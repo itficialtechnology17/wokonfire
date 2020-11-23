@@ -7,6 +7,10 @@ import 'package:wokonfire/utils/url.dart';
 
 class CartController extends GetxController {
   var arrOfCart = List<ModelCart>().obs;
+  var itemTotal = 0.obs;
+  var deliveryFees = 10.obs;
+  var taxesAndCharges = 15.obs;
+  var amountToPay = 0.obs;
 
   @override
   void onInit() {
@@ -27,6 +31,8 @@ class CartController extends GetxController {
           .map((data) => ModelCart.fromJson(data))
           .toList();
 
+      amountToPay.value = 0;
+      countPayAmount();
       print("Successful");
     }).catchError((onError) {
       print(onError);
@@ -41,5 +47,15 @@ class CartController extends GetxController {
 
   void addAddMore(index) {
     arrOfCart[index].quantity += 1;
+  }
+
+  void countPayAmount() {
+    for (int i = 0; i < arrOfCart.length; i++) {
+      itemTotal.value = itemTotal.value + int.parse(arrOfCart[i].finalPrice);
+      amountToPay.value =
+          amountToPay.value + int.parse(arrOfCart[i].finalPrice);
+    }
+    amountToPay.value =
+        amountToPay.value + deliveryFees.value + taxesAndCharges.value;
   }
 }

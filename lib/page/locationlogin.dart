@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:wokonfire/constant/constantskey.dart';
-import 'package:wokonfire/constant/customcolor.dart';
+import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/page/home.dart';
 import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/page/login.dart';
+import 'package:wokonfire/utils/custom_color.dart';
+import 'package:wokonfire/utils/shared_preference.dart';
 
 class LocationLogin extends StatefulWidget {
   @override
@@ -16,8 +19,6 @@ class LocationLogin extends StatefulWidget {
 class _StateLocationLogin extends State<LocationLogin> {
   var isLoginDone = false;
   var isLocationAdded = false;
-  var latitude = "";
-  var logitude = "";
   var address = "";
   var city = "";
   var area = "";
@@ -26,6 +27,10 @@ class _StateLocationLogin extends State<LocationLogin> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        elevation: 0,
+        brightness: Brightness.light,
+      ),
       body: Container(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
@@ -58,22 +63,30 @@ class _StateLocationLogin extends State<LocationLogin> {
                               builder: (context) => LocationPicker(
                                 apiKey:
                                     GOOGLE_API_KEY, // Put YOUR OWN KEY here.
-                                onPlacePicked: (result) {
+                                onPlacePicked: (result) async {
                                   latitude =
                                       result.geometry.location.lat.toString();
-                                  logitude =
+                                  longitude =
                                       result.geometry.location.lng.toString();
+                                  currentArea =
+                                      result.addressComponents[0].shortName;
+                                  currentAddress =
+                                      result.formattedAddress.toString();
+
+                                  await addStringToSF(
+                                      KEY_LATITUDE, latitude.toString());
+                                  await addStringToSF(
+                                      KEY_LONGITUDE, longitude.toString());
+                                  await addStringToSF(
+                                      KEY_AREA, currentArea.toString());
+                                  await addStringToSF(
+                                      KEY_ADDRESS, currentAddress.toString());
                                   Navigator.of(context).pop();
+
                                   setState(() {
                                     isLocationAdded = true;
-                                    if (isLoginDone) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Home()),
-                                          (route) => false);
-                                    }
                                   });
+                                  onLocationAdded();
                                 },
                                 initialPosition: kInitialPosition,
                                 useCurrentLocation: true,
@@ -133,14 +146,8 @@ class _StateLocationLogin extends State<LocationLogin> {
                                   if (result == "YES") {
                                     setState(() {
                                       isLoginDone = true;
-                                      if (isLocationAdded) {
-                                        Navigator.pushAndRemoveUntil(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => Home()),
-                                            (route) => false);
-                                      }
                                     });
+                                    onLoginSuccess();
                                   }
                                 },
                                 child: Padding(
@@ -169,5 +176,21 @@ class _StateLocationLogin extends State<LocationLogin> {
         ),
       ),
     );
+  }
+
+  Future<void> onLocationAdded() async {
+    if (isLoginDone) {
+      await addBoolToSF(KEY_IS_LOGIN, true);
+      isLogin = true;
+      Get.offAll(Home());
+    }
+  }
+
+  Future<void> onLoginSuccess() async {
+    if (isLocationAdded) {
+      await addBoolToSF(KEY_IS_LOGIN, true);
+      isLogin = true;
+      Get.offAll(Home());
+    }
   }
 }

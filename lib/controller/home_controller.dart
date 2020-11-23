@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/model/model_dashboard_title.dart';
 import 'package:wokonfire/model/model_slider.dart';
 import 'package:wokonfire/network/request.dart';
@@ -17,7 +18,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
     _apiGetDashboard();
   }
 
@@ -25,8 +25,8 @@ class HomeController extends GetxController {
     Request request = Request(url: urlDashboard, body: {
       'type': "API",
       'c_id': "26",
-      'lat': "21.143740",
-      'long': "72.780731",
+      'lat': latitude,
+      'long': longitude,
     });
     request.post().then((value) {
       final responseData = json.decode(value.body);
@@ -53,15 +53,21 @@ class HomeController extends GetxController {
         (timer) => {
               if (currentPosition < arrOfSlider.length - 1)
                 {
-                  currentPosition.value = currentPosition.value + 1.0,
-                  pageController.animateToPage(currentPosition.toInt(),
-                      duration: Duration(seconds: 1), curve: Curves.easeIn)
+                  if (pageController.positions.length > 0)
+                    {
+                      currentPosition.value = currentPosition.value + 1.0,
+                      pageController.animateToPage(currentPosition.toInt(),
+                          duration: Duration(seconds: 1), curve: Curves.easeIn)
+                    }
                 }
               else
                 {
-                  currentPosition.value = 0,
-                  pageController.animateToPage(currentPosition.toInt(),
-                      duration: Duration(seconds: 1), curve: Curves.easeIn)
+                  if (pageController.positions.length > 0)
+                    {
+                      currentPosition.value = 0,
+                      pageController.animateToPage(currentPosition.toInt(),
+                          duration: Duration(seconds: 1), curve: Curves.easeIn)
+                    }
                 }
             });
   }
