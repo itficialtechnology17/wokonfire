@@ -56,6 +56,7 @@ class FoodItem {
     this.finalPrice,
     this.ftName,
     this.fdQty,
+    this.isFavorite,
     this.customization,
   });
 
@@ -72,6 +73,7 @@ class FoodItem {
   String finalPrice;
   String ftName;
   String fdQty;
+  int isFavorite;
   List<Customization> customization;
 
   factory FoodItem.fromJson(Map<String, dynamic> json) => FoodItem(
@@ -88,6 +90,7 @@ class FoodItem {
         finalPrice: json["final_price"],
         ftName: json["ft_name"],
         fdQty: json["fd_qty"] == null ? null : json["fd_qty"],
+        isFavorite: json["is_favorite"],
         customization: List<Customization>.from(
             json["customization"].map((x) => Customization.fromJson(x))),
       );
@@ -106,6 +109,7 @@ class FoodItem {
         "final_price": finalPrice,
         "ft_name": ftName,
         "fd_qty": fdQty == null ? null : fdQty,
+        "is_favorite": isFavorite,
         "customization":
             List<dynamic>.from(customization.map((x) => x.toJson())),
       };

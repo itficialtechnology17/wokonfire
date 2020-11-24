@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/constant/constants_key.dart';
+import 'package:wokonfire/controller/bottomsheet_controller.dart';
 import 'package:wokonfire/controller/home_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/location_picker.dart';
@@ -17,6 +20,8 @@ import 'package:wokonfire/widgets/veg_badge_view.dart';
 
 class HomeTab extends StatelessWidget {
   final HomeController _homeController = Get.put(HomeController());
+  final BottomSheetController _bottomSheetController =
+      Get.put(BottomSheetController());
 
   @override
   Widget build(BuildContext context) {
@@ -272,117 +277,165 @@ class HomeTab extends StatelessWidget {
                                             .arrOfDashboardTitle[index]
                                             .foodItems
                                             .length,
-                                        (nIndex) => Container(
-                                          child: Column(
-                                            mainAxisSize: MainAxisSize.min,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.stretch,
-                                            children: <Widget>[
-                                              Image.network(
-                                                storageUrl +
-                                                    _homeController
-                                                        .arrOfDashboardTitle[
-                                                            index]
-                                                        .foodItems[nIndex]
-                                                        .foodImage,
-                                                height: 130.0,
-                                                fit: BoxFit.fill,
-                                              ),
-                                              verticalSpaceExtraSmall(),
-                                              Column(
-                                                mainAxisSize: MainAxisSize.max,
+                                        (nIndex) => Stack(
+                                          children: [
+                                            Container(
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.min,
                                                 crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
+                                                    CrossAxisAlignment.stretch,
                                                 children: <Widget>[
-                                                  Text(
-                                                    _homeController
-                                                        .arrOfDashboardTitle[
-                                                            index]
-                                                        .foodItems[nIndex]
-                                                        .ftName
-                                                        .toUpperCase(),
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .bodyText1
-                                                        .copyWith(
-                                                          fontSize: 10.0,
-                                                          color:
-                                                              Colors.grey[700],
-                                                        ),
+                                                  Image.network(
+                                                    storageUrl +
+                                                        _homeController
+                                                            .arrOfDashboardTitle[
+                                                                index]
+                                                            .foodItems[nIndex]
+                                                            .foodImage,
+                                                    height: 130.0,
+                                                    fit: BoxFit.fill,
                                                   ),
                                                   verticalSpaceExtraSmall(),
-                                                  Row(
+                                                  Column(
+                                                    mainAxisSize:
+                                                        MainAxisSize.max,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
                                                     children: <Widget>[
-                                                      VegBadgeView(),
-                                                      horizontalSpaceExtraSmall(),
-                                                      Flexible(
-                                                        child: Text(
-                                                          _homeController
-                                                              .arrOfDashboardTitle[
-                                                                  index]
-                                                              .foodItems[nIndex]
-                                                              .foodName,
-                                                          style:
-                                                              Theme.of(context)
+                                                      Text(
+                                                        _homeController
+                                                            .arrOfDashboardTitle[
+                                                                index]
+                                                            .foodItems[nIndex]
+                                                            .ftName
+                                                            .toUpperCase(),
+                                                        style: Theme.of(context)
+                                                            .textTheme
+                                                            .bodyText1
+                                                            .copyWith(
+                                                              fontSize: 10.0,
+                                                              color: Colors
+                                                                  .grey[700],
+                                                            ),
+                                                      ),
+                                                      verticalSpaceExtraSmall(),
+                                                      Row(
+                                                        children: <Widget>[
+                                                          VegBadgeView(),
+                                                          horizontalSpaceExtraSmall(),
+                                                          Flexible(
+                                                            child: Text(
+                                                              _homeController
+                                                                  .arrOfDashboardTitle[
+                                                                      index]
+                                                                  .foodItems[
+                                                                      nIndex]
+                                                                  .foodName,
+                                                              style: Theme.of(
+                                                                      context)
                                                                   .textTheme
                                                                   .subtitle2
                                                                   .copyWith(
                                                                       fontSize:
                                                                           13.0),
-                                                        ),
+                                                            ),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                  verticalSpaceMedium(),
-                                                  // Spacer(),
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: <Widget>[
-                                                      Text(
-                                                          _homeController
-                                                              .arrOfDashboardTitle[
-                                                                  index]
-                                                              .foodItems[nIndex]
-                                                              .finalPrice,
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .bodyText1
-                                                              .copyWith(
-                                                                  fontSize:
-                                                                      14.0)),
-                                                      Container(
-                                                        padding:
-                                                            const EdgeInsets
-                                                                    .symmetric(
-                                                                vertical: 6.0,
-                                                                horizontal:
-                                                                    25.0),
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          border: Border.all(
-                                                              color:
-                                                                  Colors.grey),
-                                                        ),
-                                                        child: Text(
-                                                          'ADD',
-                                                          style: Theme.of(
-                                                                  context)
-                                                              .textTheme
-                                                              .subtitle2
-                                                              .copyWith(
+                                                      verticalSpaceMedium(),
+                                                      // Spacer(),
+                                                      Row(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .spaceBetween,
+                                                        children: <Widget>[
+                                                          Text(
+                                                              _homeController
+                                                                  .arrOfDashboardTitle[
+                                                                      index]
+                                                                  .foodItems[
+                                                                      nIndex]
+                                                                  .finalPrice,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodyText1
+                                                                  .copyWith(
+                                                                      fontSize:
+                                                                          14.0)),
+                                                          Container(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                        .symmetric(
+                                                                    vertical:
+                                                                        6.0,
+                                                                    horizontal:
+                                                                        25.0),
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              border: Border.all(
                                                                   color: Colors
-                                                                      .green),
-                                                        ),
+                                                                      .grey),
+                                                            ),
+                                                            child: Text(
+                                                              'ADD',
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .subtitle2
+                                                                  .copyWith(
+                                                                      color: Colors
+                                                                          .green),
+                                                            ),
+                                                          )
+                                                        ],
                                                       )
                                                     ],
                                                   )
                                                 ],
-                                              )
-                                            ],
-                                          ),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.only(
+                                                  top: 4, left: 4),
+                                              child: Material(
+                                                color: Colors.black12,
+                                                type: MaterialType.circle,
+                                                clipBehavior: Clip.hardEdge,
+                                                child: InkWell(
+                                                  onTap: () {
+                                                    /* Get.to(
+                                                        FavoriteBottomSheet());*/
+                                                    _bottomSheetController
+                                                        .openFavoriteTitle(
+                                                            index,
+                                                            nIndex,
+                                                            context);
+                                                  },
+                                                  child: Padding(
+                                                    padding: EdgeInsets.all(4),
+                                                    child: _homeController
+                                                                .arrOfDashboardTitle[
+                                                                    index]
+                                                                .foodItems[
+                                                                    nIndex]
+                                                                .isFavorite ==
+                                                            1
+                                                        ? Icon(
+                                                            Icons.favorite,
+                                                            color: Colors.white,
+                                                          )
+                                                        : Icon(
+                                                            Icons
+                                                                .favorite_border,
+                                                            color:
+                                                                Colors.white),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
                                         ),
                                       ),
                                     ),

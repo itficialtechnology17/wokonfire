@@ -24,7 +24,7 @@ class HomeController extends GetxController {
   void _apiGetDashboard() async {
     Request request = Request(url: urlDashboard, body: {
       'type': "API",
-      'c_id': "26",
+      'c_id': userId.toString(),
       'lat': latitude,
       'long': longitude,
     });

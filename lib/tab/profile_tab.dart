@@ -95,10 +95,10 @@ class _StateProfileTab extends State<ProfileTab> {
                 Container(
                   alignment: Alignment.topCenter,
                   padding: const EdgeInsets.only(top: 20.0),
-                  height: 130.0,
+                  height: 200.0,
                   color: Colors.grey[200],
                   child: Text(
-                    'App Version v1.1.0',
+                    'Version 1.0.0',
                     style: Theme.of(context)
                         .textTheme
                         .bodyText1
