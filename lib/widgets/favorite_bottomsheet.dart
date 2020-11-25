@@ -3,11 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:wokonfire/controller/bottomsheet_controller.dart';
+import 'package:wokonfire/controller/favorite_controller.dart';
 
 class FavoriteBottomSheet extends StatelessWidget {
-  BottomSheetController _bottomSheetController =
-      Get.put(BottomSheetController());
+  FavoriteController _bottomSheetController = Get.put(FavoriteController());
 
   @override
   Widget build(BuildContext context) {

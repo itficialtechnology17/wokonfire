@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
+import 'package:wokonfire/page/profile/favorite_food.dart';
 import 'package:wokonfire/page/profile/invite_friends.dart';
 import 'package:wokonfire/page/profile/my_account.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
@@ -53,6 +54,7 @@ class _StateProfileTab extends State<ProfileTab> {
                       if (index == 0) {
                         Get.to(MyAccount());
                       } else if (index == 1) {
+                        Get.to(FavoriteFood());
                       } else if (index == 2) {
                         Get.to(OffersScreen());
                       } else if (index == 3) {
@@ -115,7 +117,7 @@ class _StateProfileTab extends State<ProfileTab> {
 }
 
 class _AppBar extends StatelessWidget {
-  UserController _userController = Get.put(UserController());
+  UserController _userController = Get.find();
   @override
   Widget build(BuildContext context) {
     final subtitleStyle = Theme.of(context).textTheme.bodyText1;

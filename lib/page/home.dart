@@ -1,4 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wokonfire/controller/add_to_cart_controller.dart';
+import 'package:wokonfire/controller/cart_controller.dart';
+import 'package:wokonfire/controller/customization_controller.dart';
+import 'package:wokonfire/controller/favorite_controller.dart';
+import 'package:wokonfire/controller/home_controller.dart';
+import 'package:wokonfire/controller/search_controller.dart';
 import 'package:wokonfire/tab/cart_tab.dart';
 import 'package:wokonfire/tab/home_tab.dart';
 import 'package:wokonfire/tab/profile_tab.dart';
@@ -15,6 +22,15 @@ class Home extends StatefulWidget {
 class _StateHome extends State<Home> {
   var iconWidth = 25.0;
   var iconHeight = 25.0;
+
+  CustomizationController _customizationController =
+      Get.put(CustomizationController());
+  HomeController _homeController = Get.put(HomeController());
+  FavoriteController _favoriteController = Get.put(FavoriteController());
+
+  CartController _cartController = Get.put(CartController());
+  SearchController _searchController = Get.put(SearchController());
+  AddToCartController _addToCartController = Get.put(AddToCartController());
 
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 

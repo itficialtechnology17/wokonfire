@@ -6,5 +6,7 @@ const urlGetCartItem = 'cart_view';
 const urlUpdateProfile = 'profile-update';
 const urlMyAccount = 'myaccount';
 const urlManageAddress = 'manage_address';
+const urlGetFavorite = 'get_favorite';
 const urlGetFavoriteMaster = 'get_favorite_master';
 const urlManageFavoriteMaster = 'manage_favorite_master';
+const urlManageFavorite = 'manage_favorite';

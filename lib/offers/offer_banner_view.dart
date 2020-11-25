@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper/flutter_swiper.dart';
+import 'package:get/get.dart';
 import 'package:wokonfire/controller/home_controller.dart';
 
 class OfferBannerView extends StatelessWidget {
-  HomeController homeController;
+  HomeController homeController = Get.find();
   OfferBannerView(this.homeController);
 
   @override

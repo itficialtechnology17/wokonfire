@@ -1,49 +1,44 @@
 import 'dart:convert';
 
-List<ModelDashboardTitle> modelDashboardTitleFromJson(String str) =>
-    List<ModelDashboardTitle>.from(
-        json.decode(str).map((x) => ModelDashboardTitle.fromJson(x)));
+List<ModelFavorite> modelFavoriteFromJson(String str) =>
+    List<ModelFavorite>.from(
+        json.decode(str).map((x) => ModelFavorite.fromJson(x)));
 
-String modelDashboardTitleToJson(List<ModelDashboardTitle> data) =>
+String modelFavoriteToJson(List<ModelFavorite> data) =>
     json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-class ModelDashboardTitle {
-  ModelDashboardTitle({
-    this.dtId,
-    this.dtName,
-    this.dtRank,
-    this.rlId,
-    this.foodItems,
+class ModelFavorite {
+  ModelFavorite({
+    this.fTitle,
+    this.favoriteList,
   });
 
-  int dtId;
-  String dtName;
-  int dtRank;
-  int rlId;
-  List<FoodItem> foodItems;
+  String fTitle;
+  List<FavoriteList> favoriteList;
 
-  factory ModelDashboardTitle.fromJson(Map<String, dynamic> json) =>
-      ModelDashboardTitle(
-        dtId: json["dt_id"],
-        dtName: json["dt_name"],
-        dtRank: json["dt_rank"],
-        rlId: json["rl_id"],
-        foodItems: List<FoodItem>.from(
-            json["food_items"].map((x) => FoodItem.fromJson(x))),
+  factory ModelFavorite.fromJson(Map<String, dynamic> json) => ModelFavorite(
+        fTitle: json["f_title"],
+        favoriteList: List<FavoriteList>.from(
+            json["favorite_list"].map((x) => FavoriteList.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "dt_id": dtId,
-        "dt_name": dtName,
-        "dt_rank": dtRank,
-        "rl_id": rlId,
-        "food_items": List<dynamic>.from(foodItems.map((x) => x.toJson())),
+        "f_title": fTitle,
+        "favorite_list":
+            List<dynamic>.from(favoriteList.map((x) => x.toJson())),
       };
 }
 
-class FoodItem {
-  FoodItem({
+class FavoriteList {
+  FavoriteList({
+    this.favoriteId,
+    this.fMIdFk,
     this.foodId,
+    this.custId,
+    this.rId,
+    this.fMId,
+    this.fTitle,
+    this.cId,
     this.foodName,
     this.foodCategoryId,
     this.foodDesc,
@@ -52,64 +47,113 @@ class FoodItem {
     this.foodTypeId,
     this.foodSpiceType,
     this.jainAvailable,
-    this.dtId,
-    this.finalPrice,
+    this.frId,
+    this.fid,
+    this.rid,
+    this.commonPrice,
+    this.foodAvailable,
+    this.containerPrice,
+    this.containerId,
+    this.ftId,
     this.ftName,
+    this.ftIcon,
+    this.finalPrice,
     this.fdQty,
-    this.isFavorite,
     this.customization,
   });
 
+  int favoriteId;
+  int fMIdFk;
   int foodId;
+  int custId;
+  int rId;
+  int fMId;
+  String fTitle;
+  int cId;
   String foodName;
   int foodCategoryId;
   String foodDesc;
   String foodImage;
-  String price;
+  int price;
   int foodTypeId;
   int foodSpiceType;
   int jainAvailable;
-  int dtId;
-  String finalPrice;
+  int frId;
+  int fid;
+  int rid;
+  dynamic commonPrice;
+  int foodAvailable;
+  dynamic containerPrice;
+  dynamic containerId;
+  int ftId;
   String ftName;
-  int fdQty;
-  int isFavorite;
+  dynamic ftIcon;
+  String finalPrice;
+  String fdQty;
   List<Customization> customization;
 
-  factory FoodItem.fromJson(Map<String, dynamic> json) => FoodItem(
+  factory FavoriteList.fromJson(Map<String, dynamic> json) => FavoriteList(
+        favoriteId: json["favorite_id"],
+        fMIdFk: json["f_m_id_fk"],
         foodId: json["food_id"],
+        custId: json["cust_id"],
+        rId: json["r_id"],
+        fMId: json["f_m_id"],
+        fTitle: json["f_title"],
+        cId: json["c_id"],
         foodName: json["food_name"],
         foodCategoryId: json["food_category_id"],
         foodDesc: json["food_desc"],
         foodImage: json["food_image"],
-        price: json["price"],
+        price: json["price"] == null ? null : json["price"],
         foodTypeId: json["food_type_id"],
         foodSpiceType: json["food_spice_type"],
         jainAvailable: json["jain_available"],
-        dtId: json["dt_id"],
-        finalPrice: json["final_price"],
+        frId: json["fr_id"],
+        fid: json["fid"],
+        rid: json["rid"],
+        commonPrice: json["common_price"],
+        foodAvailable: json["food_available"],
+        containerPrice: json["container_price"],
+        containerId: json["container_id"],
+        ftId: json["ft_id"],
         ftName: json["ft_name"],
-        fdQty: json["fd_qty"],
-        isFavorite: json["is_favorite"],
+        ftIcon: json["ft_icon"],
+        finalPrice: json["final_price"],
+        fdQty: json["fd_qty"] == null ? null : json["fd_qty"],
         customization: List<Customization>.from(
             json["customization"].map((x) => Customization.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
+        "favorite_id": favoriteId,
+        "f_m_id_fk": fMIdFk,
         "food_id": foodId,
+        "cust_id": custId,
+        "r_id": rId,
+        "f_m_id": fMId,
+        "f_title": fTitle,
+        "c_id": cId,
         "food_name": foodName,
         "food_category_id": foodCategoryId,
         "food_desc": foodDesc,
         "food_image": foodImage,
-        "price": price,
+        "price": price == null ? null : price,
         "food_type_id": foodTypeId,
         "food_spice_type": foodSpiceType,
         "jain_available": jainAvailable,
-        "dt_id": dtId,
-        "final_price": finalPrice,
+        "fr_id": frId,
+        "fid": fid,
+        "rid": rid,
+        "common_price": commonPrice,
+        "food_available": foodAvailable,
+        "container_price": containerPrice,
+        "container_id": containerId,
+        "ft_id": ftId,
         "ft_name": ftName,
-        "fd_qty": fdQty,
-        "is_favorite": isFavorite,
+        "ft_icon": ftIcon,
+        "final_price": finalPrice,
+        "fd_qty": fdQty == null ? null : fdQty,
         "customization":
             List<dynamic>.from(customization.map((x) => x.toJson())),
       };
@@ -228,7 +272,6 @@ class CustomizationValue {
   int fcvRank;
   int fcvIsDefault;
   String fcvStatus;
-  bool isSelected = false;
 
   factory CustomizationValue.fromJson(Map<String, dynamic> json) =>
       CustomizationValue(

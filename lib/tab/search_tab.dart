@@ -8,7 +8,7 @@ import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/veg_badge_view.dart';
 
 class SearchTab extends StatelessWidget {
-  final SearchController _searchController = Get.put(SearchController());
+  final SearchController _searchController = Get.find();
 
   @override
   Widget build(BuildContext context) {

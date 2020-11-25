@@ -14,7 +14,7 @@ class MyAccount extends StatefulWidget {
 class _StateMyAccount extends State<MyAccount> {
   var isEditActive = true;
 
-  final UserController _userController = Get.put(UserController());
+  final UserController _userController = Get.find();
 
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
 

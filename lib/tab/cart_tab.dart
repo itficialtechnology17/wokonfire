@@ -35,7 +35,7 @@ class CartTab extends StatelessWidget {
 }
 
 class _OrderView extends StatelessWidget {
-  final CartController _cartController = Get.put(CartController());
+  CartController _cartController = Get.find();
 
   @override
   Widget build(BuildContext context) {
