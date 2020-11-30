@@ -244,19 +244,42 @@ class HomeTab extends StatelessWidget {
                           return Column(
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(
-                                    left: 8, right: 8, bottom: 8, top: 16),
+                                padding: EdgeInsets.only(bottom: 8, top: 16),
                                 child: Row(
                                   children: <Widget>[
-                                    Icon(Icons.thumb_up, size: 20.0),
                                     horizontalSpaceSmall(),
                                     Text(
                                       _homeController
-                                          .arrOfDashboardTitle[index].dtName,
+                                          .arrOfDashboardTitle[index].dtName
+                                          .toUpperCase(),
                                       style: Theme.of(context)
                                           .textTheme
-                                          .headline4
-                                          .copyWith(fontSize: 20.0),
+                                          .bodyText1
+                                          .copyWith(fontSize: 18.0),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                height: 2,
+                                margin: EdgeInsets.only(
+                                    left: 8, right: 8, bottom: 8),
+                                child: Stack(
+                                  children: [
+                                    Center(
+                                      child: Container(
+                                        width: Get.width,
+                                        height: 1,
+                                        color: Colors.grey[200],
+                                      ),
+                                    ),
+                                    Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Container(
+                                        width: Get.width * 0.10,
+                                        height: 2,
+                                        color: Colors.red,
+                                      ),
                                     )
                                   ],
                                 ),
@@ -467,9 +490,7 @@ class HomeTab extends StatelessWidget {
                                                                               color: Colors.green),
                                                                           onTap:
                                                                               () {
-                                                                            _addToCartController.addToCart(
-                                                                                0,
-                                                                                index,
+                                                                            _homeController.addToCart(index,
                                                                                 nIndex);
                                                                           },
                                                                         ),

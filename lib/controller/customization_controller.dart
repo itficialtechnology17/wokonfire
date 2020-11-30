@@ -3,16 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:ionicons/ionicons.dart';
-import 'package:wokonfire/model/model_dashboard_title.dart';
+import 'package:wokonfire/controller/home_controller.dart';
+import 'package:wokonfire/controller/search_controller.dart';
+import 'package:wokonfire/model/model_customization.dart';
+import 'package:wokonfire/model/model_customization_value.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 
 class CustomizationController extends GetxController {
   var isAddToCartLoading = false.obs;
 
   var finalPrice = 0.obs;
+  var controllerType = 0.obs;
+  HomeController _homeController = Get.find();
+  SearchController _searchController = Get.find();
+  int mIndex = 0;
+  int nmIndex = 0;
 
-  void openCustomization(String paramPrice, List<Customization> customization) {
-    finalPrice.value = int.parse(paramPrice);
+  void openCustomization(int controllerType, int index, int nIndex) {
+    mIndex = index;
+    nmIndex = nIndex;
+
+    List<Customization> customization;
+    if (controllerType == 0) {
+      finalPrice.value = int.parse(_homeController
+          .arrOfDashboardTitle[index].foodItems[nIndex].finalPrice);
+      customization = _homeController
+          .arrOfDashboardTitle[index].foodItems[nIndex].customization;
+    } else if (controllerType == 1) {
+      customization = _searchController.arrOfFood[nIndex].customization;
+      finalPrice.value =
+          int.parse(_searchController.arrOfFood[index].finalPrice);
+    }
 
     showModalBottomSheet(
         isScrollControlled: true,
@@ -101,22 +122,34 @@ class CustomizationController extends GetxController {
                                   .length,
                               itemBuilder: (context, nIndex) {
                                 return InkWell(
-                                  onTap: () {},
+                                  onTap: () {
+                                    updatedCustomization(
+                                        state, customization, index, nIndex);
+                                  },
                                   child: Row(
                                     children: [
-                                      !customization[index]
-                                              .customizationValues[nIndex]
-                                              .isSelected
+                                      customization[index]
+                                                  .customizationValues[nIndex]
+                                                  .fcvIsDefault ==
+                                              1
                                           ? Icon(
-                                              Ionicons.ellipse_outline,
-                                              color: Colors.grey,
-                                              size: 25,
-                                            )
-                                          : Icon(
                                               Ionicons.checkmark_circle,
                                               color: Colors.lightBlue,
                                               size: 25,
-                                            ),
+                                            )
+                                          : !customization[index]
+                                                  .customizationValues[nIndex]
+                                                  .isSelected
+                                              ? Icon(
+                                                  Ionicons.ellipse_outline,
+                                                  color: Colors.grey,
+                                                  size: 25,
+                                                )
+                                              : Icon(
+                                                  Ionicons.checkmark_circle,
+                                                  color: Colors.lightBlue,
+                                                  size: 25,
+                                                ),
                                       SizedBox(
                                         width: 8,
                                       ),
@@ -217,5 +250,24 @@ class CustomizationController extends GetxController {
             );
           });
         });
+  }
+
+  Future<Null> updatedCustomization(StateSetter updateState,
+      List<Customization> customization, int index, int nIndex) async {
+    updateState(() {
+      Customization _customization = customization[index];
+      CustomizationValue _customizationValue =
+          _customization.customizationValues[nIndex];
+      if (_customizationValue.isSelected) {
+        _customizationValue.isSelected = false;
+      } else {
+        _customizationValue.isSelected = true;
+      }
+      _customization.customizationValues[index] = _customizationValue;
+      if (controllerType == 0) {
+        _homeController.arrOfDashboardTitle[mIndex].foodItems[nmIndex]
+            .customization[index] = _customization;
+      }
+    });
   }
 }

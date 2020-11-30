@@ -10,3 +10,5 @@ const urlGetFavorite = 'get_favorite';
 const urlGetFavoriteMaster = 'get_favorite_master';
 const urlManageFavoriteMaster = 'manage_favorite_master';
 const urlManageFavorite = 'manage_favorite';
+const urlAddToCart = 'add_to_cart';
+const urlGetToken = 'paytm/create.php';

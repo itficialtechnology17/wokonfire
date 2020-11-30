@@ -25,10 +25,7 @@ class AddToCartController extends GetxController {
       if (_homeController.arrOfDashboardTitle[index].foodItems[nIndex]
           .customization.isNotEmpty) {
         _customizationController.openCustomization(
-            _homeController
-                .arrOfDashboardTitle[index].foodItems[nIndex].finalPrice,
-            _homeController
-                .arrOfDashboardTitle[index].foodItems[nIndex].customization);
+            controllerType.value, index, nIndex);
       } else {
         ModelDashboardTitle modelDashboardTitle =
             _homeController.arrOfDashboardTitle[index];

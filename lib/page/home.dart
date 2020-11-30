@@ -23,13 +23,14 @@ class _StateHome extends State<Home> {
   var iconWidth = 25.0;
   var iconHeight = 25.0;
 
-  CustomizationController _customizationController =
-      Get.put(CustomizationController());
   HomeController _homeController = Get.put(HomeController());
+
   FavoriteController _favoriteController = Get.put(FavoriteController());
 
   CartController _cartController = Get.put(CartController());
   SearchController _searchController = Get.put(SearchController());
+  CustomizationController _customizationController =
+      Get.put(CustomizationController());
   AddToCartController _addToCartController = Get.put(AddToCartController());
 
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);

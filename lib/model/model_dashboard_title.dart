@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'model_customization.dart';
+
 List<ModelDashboardTitle> modelDashboardTitleFromJson(String str) =>
     List<ModelDashboardTitle>.from(
         json.decode(str).map((x) => ModelDashboardTitle.fromJson(x)));
@@ -114,7 +116,7 @@ class FoodItem {
             List<dynamic>.from(customization.map((x) => x.toJson())),
       };
 }
-
+/*
 class Customization {
   Customization({
     this.fcmId,
@@ -254,4 +256,4 @@ class CustomizationValue {
         "fcv_is_default": fcvIsDefault,
         "fcv_status": fcvStatus,
       };
-}
+}*/

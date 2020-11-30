@@ -295,6 +295,17 @@ class FavoriteController extends GetxController {
     });
   }
 
+  Future<Null> updatedCustomization(StateSetter updateState, int index) async {
+    updateState(() {
+      for (int i = 0; i < arrOfFavoriteTitle.length; i++) {
+        arrOfFavoriteTitle[i].isSelected = false;
+      }
+
+      arrOfFavoriteTitle[index].isSelected = true;
+      isTitleSelected = index;
+    });
+  }
+
   void openFavoriteAddTitle(BuildContext context, String paramFavoriteTitle,
       [int index]) {
     String favoriteTitle = paramFavoriteTitle;

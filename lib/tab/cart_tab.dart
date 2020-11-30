@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
+import 'package:wokonfire/page/checkout.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
@@ -308,17 +309,23 @@ class _AddressPaymentView extends StatelessWidget {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.all(10.0),
-                      color: Colors.green,
-                      height: 58.0,
-                      child: Text(
-                        'PROCEED TO PAY',
-                        style: Theme.of(context)
-                            .textTheme
-                            .subtitle2
-                            .copyWith(color: Colors.white),
+                    child: InkWell(
+                      splashColor: Colors.white,
+                      onTap: () {
+                        Get.to(Checkout());
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.all(10.0),
+                        color: Colors.green,
+                        height: 58.0,
+                        child: Text(
+                          'PROCEED TO PAY',
+                          style: Theme.of(context)
+                              .textTheme
+                              .subtitle2
+                              .copyWith(color: Colors.white),
+                        ),
                       ),
                     ),
                   )
