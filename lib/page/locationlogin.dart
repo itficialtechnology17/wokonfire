@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/constant/constants_key.dart';
+import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/page/home.dart';
 import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/page/login.dart';
@@ -22,6 +23,7 @@ class _StateLocationLogin extends State<LocationLogin> {
   var address = "";
   var city = "";
   var area = "";
+  UserController _userController = Get.find();
   static final kInitialPosition = LatLng(-33.8567844, 151.213108);
 
   @override
@@ -182,11 +184,16 @@ class _StateLocationLogin extends State<LocationLogin> {
     if (isLoginDone) {
       await addBoolToSF(KEY_IS_LOGIN, true);
       isLogin = true;
+      _userController.addUpdateAddress(
+          latitude, longitude, currentAddress, "ADD", "");
       Get.offAll(Home());
     }
   }
 
   Future<void> onLoginSuccess() async {
+    userId = _userController.modelUser.value.cId.toString();
+    await addStringToSF(KEY_IS_USER_ID, userId);
+
     if (isLocationAdded) {
       await addBoolToSF(KEY_IS_LOGIN, true);
       isLogin = true;

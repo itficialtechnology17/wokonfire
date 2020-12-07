@@ -35,7 +35,6 @@ class _StateHome extends State<Home> {
 
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 
-  int selectedIndex = 0;
   final List<Widget> _children = [
     HomeTab(),
     SearchTab(),
@@ -49,44 +48,39 @@ class _StateHome extends State<Home> {
         Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 11.0);
 
     return Scaffold(
-      body: _children[selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        type: BottomNavigationBarType.fixed,
-        selectedItemColor: darkOrange,
-        unselectedItemColor: Colors.grey,
-        currentIndex: selectedIndex,
-        selectedLabelStyle: labelTextStyle,
-        unselectedLabelStyle: labelTextStyle,
-        onTap: (index) {
-          setState(() {
-            selectedIndex = index;
-          });
-        },
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            title: Text('HOME'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            title: Text('SEARCH'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add_shopping_cart),
-            title: Text('CART'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_outline),
-            title: Text('ACCOUNT'),
-          ),
-        ],
-      ),
+      body: Obx(() => _children[_homeController.selectedIndex.value]),
+      bottomNavigationBar: Obx(() => BottomNavigationBar(
+            type: BottomNavigationBarType.fixed,
+            selectedItemColor: darkOrange,
+            unselectedItemColor: Colors.grey,
+            currentIndex: _homeController.selectedIndex.value,
+            selectedLabelStyle: labelTextStyle,
+            unselectedLabelStyle: labelTextStyle,
+            onTap: (index) {
+              _homeController.selectedIndex.value = index;
+              if (index == 2) {
+                _cartController.apiGetCartItem();
+              }
+            },
+            items: [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                title: Text('HOME'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.search),
+                title: Text('SEARCH'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add_shopping_cart),
+                title: Text('CART'),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person_outline),
+                title: Text('ACCOUNT'),
+              ),
+            ],
+          )),
     );
-  }
-
-  void _incrementTab(index) {
-    setState(() {
-      selectedIndex = index;
-    });
   }
 }

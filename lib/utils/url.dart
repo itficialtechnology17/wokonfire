@@ -1,5 +1,6 @@
 const urlBase = 'https://itficial.app/wokonfirenew/';
 const storageUrl = 'https://itficial.app/wokonfirenew/storage/';
+const urlSendOTP = 'send_sms';
 const urlDashboard = 'searchRestaurants';
 const urlGetAllFood = 'food_listing';
 const urlGetCartItem = 'cart_view';
@@ -12,3 +13,4 @@ const urlManageFavoriteMaster = 'manage_favorite_master';
 const urlManageFavorite = 'manage_favorite';
 const urlAddToCart = 'add_to_cart';
 const urlGetToken = 'paytm/create.php';
+const urlPaytmPayment = 'PaytmKit/TxnTest.php';

@@ -4,8 +4,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
-import 'package:wokonfire/controller/payment_controller.dart';
 import 'package:wokonfire/controller/user_controller.dart';
+import 'package:wokonfire/page/order_details.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 
 class Checkout extends StatefulWidget {
@@ -18,7 +18,6 @@ class Checkout extends StatefulWidget {
 class _StateCheckOut extends State<Checkout> {
   UserController _userController = Get.find();
   CartController _cartController = Get.find();
-  PaymentController _paymentController = Get.put(PaymentController());
 
   int selectedWallet = -1;
   int selectedMethod = 0;
@@ -226,20 +225,29 @@ class _StateCheckOut extends State<Checkout> {
       bottomNavigationBar: Container(
         child: InkWell(
           splashColor: Colors.white,
-          onTap: () {
-            _paymentController.apiGetToken();
+          onTap: () async {
+            /*var result = await Get.to(
+                PaytmPayment(_cartController.itemTotal.toString()));
+            if (result == "YES") {
+              Get.off(OrderDetails());
+            } else {
+              showSnackBar("Failed", "Payment Failed", Colors.red);
+            }*/
+            Get.off(OrderDetails());
           },
           child: Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.all(6.0),
             color: Colors.green,
             height: Get.height * 0.07,
-            child: Text(
-              "MAKE PAYMENT",
-              style: Theme.of(context)
-                  .textTheme
-                  .subtitle2
-                  .copyWith(color: Colors.white),
+            child: Center(
+              child: Text(
+                "MAKE PAYMENT",
+                style: Theme.of(context)
+                    .textTheme
+                    .subtitle2
+                    .copyWith(color: Colors.white),
+              ),
             ),
           ),
         ),

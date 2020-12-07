@@ -7,7 +7,7 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.MethodChannel
 
 class MainActivity: FlutterActivity() {
-    private val CHANNEL = "flutter.native/helper" //Change as per project
+  /*  private val CHANNEL = "flutter.native/helper" //Change as per project
     private lateinit var plugin : AllInOneSDKPlugin
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
@@ -21,6 +21,6 @@ class MainActivity: FlutterActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         plugin.onActivityResult(requestCode,resultCode,data)
     }
-
+*/
 
 }

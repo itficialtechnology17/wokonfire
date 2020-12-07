@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/instance_manager.dart';
+import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/profile/favorite_food.dart';
 import 'package:wokonfire/page/profile/invite_friends.dart';
 import 'package:wokonfire/page/profile/my_account.dart';
+import 'package:wokonfire/utils/shared_preference.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
 
@@ -71,8 +74,11 @@ class _StateProfileTab extends State<ProfileTab> {
                 CustomDividerView(),
                 InkWell(
                   onTap: () {
-                    Get.changeTheme(
-                        Get.isDarkMode ? ThemeData.light() : ThemeData.dark());
+                    showDialog(
+                        context: context,
+                        builder: (context) => _confirmLogout());
+                    /*Get.changeTheme(
+                        Get.isDarkMode ? ThemeData.light() : ThemeData.dark());*/
                   },
                   child: Row(
                     children: <Widget>[
@@ -114,6 +120,46 @@ class _StateProfileTab extends State<ProfileTab> {
       ),
     );
   }
+
+  _confirmLogout() {
+    return AlertDialog(
+      content: new Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Wrap(
+            children: <Widget>[
+              Text(
+                "Confirm Logout ?",
+                style: TextStyle(fontSize: 18),
+              )
+            ],
+          )
+        ],
+      ),
+      actions: <Widget>[
+        new FlatButton(
+          onPressed: () async {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+            await addBoolToSF(KEY_IS_LOGIN, false);
+            isLogin = false;
+
+            Navigator.pushNamedAndRemoveUntil(
+                context, "/LoginPage", (r) => false);
+          },
+          textColor: Colors.black,
+          child: const Text('YES'),
+        ),
+        new FlatButton(
+          onPressed: () {
+            Navigator.of(context, rootNavigator: true).pop('dialog');
+          },
+          textColor: Colors.red,
+          child: const Text('CANCEL'),
+        ),
+      ],
+    );
+  }
 }
 
 class _AppBar extends StatelessWidget {
@@ -145,7 +191,10 @@ class _AppBar extends StatelessWidget {
               verticalSpaceSmall(),
               Row(
                 children: <Widget>[
-                  Text(_userController.modelUser.value.contactNumber,
+                  Text(
+                      _userController.modelUser.value.contactNumber == null
+                          ? "Mobile Number"
+                          : _userController.modelUser.value.contactNumber,
                       style: subtitleStyle),
                   horizontalSpaceSmall(),
                   ClipOval(

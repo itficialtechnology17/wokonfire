@@ -1,19 +1,75 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
+import 'package:wokonfire/controller/home_controller.dart';
 import 'package:wokonfire/page/checkout.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
 
 class CartTab extends StatelessWidget {
+  CartController _cartController = Get.find();
+  HomeController _homeController = Get.find();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Container(
+          child:
+              /*_cartController.arrOfCart.isEmpty
+                  ? Container(
+                      height: Get.height,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 50,
+                          ),
+                          Image.asset('assets/images/ic_empty_cart.png'),
+                          Center(
+                            child: Text(
+                              "Your Cart is Empty",
+                              style: TextStyle(
+                                  fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 12,
+                          ),
+                          Center(
+                            child: Text(
+                                "Looks like you haven't made\nyour choice yet.",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey)),
+                          ),
+                          SizedBox(
+                            height: 48,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              _homeController.selectedIndex.value = 0;
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 8),
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: darkOrange)),
+                              child: Text(
+                                "Browse Food".toUpperCase(),
+                                style: TextStyle(color: darkOrange),
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  : */
+              Container(
             margin: const EdgeInsets.only(top: 15.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,

@@ -81,6 +81,7 @@ class AllInOneSDKPlugin(var activity: Activity, var call: MethodCall, var result
         transactionManager.setShowPaymentUrl(host + "theia/api/v1/showPaymentPage")
         transactionManager.startTransaction(activity, REQ_CODE)
     }
+
     fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQ_CODE && data != null) {
             val message = data.getStringExtra("nativeSdkForMerchantMessage")

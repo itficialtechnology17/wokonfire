@@ -68,7 +68,6 @@ class FavoriteController extends GetxController {
   }
 
   void openFavoriteTitle(int index, int nIndex, BuildContext context) {
-    _apiGetFavoriteMaster();
     isLoading.value = false;
 
     if (_homeController
@@ -230,7 +229,7 @@ class FavoriteController extends GetxController {
                               "NOT SELECTED", "Please select favorite category",
                               backgroundColor: Colors.white, borderRadius: 3);
                         } else {
-                          _apiManageFavorite(
+                          apiManageFavorite(
                               context,
                               "ADD",
                               _homeController.arrOfDashboardTitle[index]
@@ -275,12 +274,15 @@ class FavoriteController extends GetxController {
             });
           });
     } else {
-      _apiManageFavorite(
+      apiManageFavorite(
           context,
           "DELETE",
           _homeController.arrOfDashboardTitle[index].foodItems[nIndex].foodId,
           index,
-          nIndex);
+          nIndex,
+          _homeController
+              .arrOfDashboardTitle[index].foodItems[nIndex].isFavorite
+              .toString());
     }
   }
 
@@ -416,8 +418,8 @@ class FavoriteController extends GetxController {
     });
   }
 
-  void _apiManageFavorite(BuildContext context, String actionType, int foodId,
-      [int index, int nIndex]) async {
+  void apiManageFavorite(BuildContext context, String actionType, int foodId,
+      [int index, int nIndex, String favoriteId]) async {
     if (actionType != "DELETE") isLoading.value = true;
 
     Request request = Request(url: urlManageFavorite, body: {
@@ -425,7 +427,7 @@ class FavoriteController extends GetxController {
       'c_id': userId,
       'f_id': foodId.toString(),
       'f_m_id': arrOfFavoriteTitle[isTitleSelected].fMId.toString(),
-      'fav_id': "",
+      'fav_id': favoriteId,
       'r_id': restaurantId,
       'action_type': actionType,
     });

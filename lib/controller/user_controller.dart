@@ -7,7 +7,7 @@ import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/model/model_address.dart';
 import 'package:wokonfire/model/model_user.dart';
 import 'package:wokonfire/network/request.dart';
-import 'package:wokonfire/page/home.dart';
+import 'package:wokonfire/page/get_current_location.dart';
 import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/utils/show_snackbar.dart';
 import 'package:wokonfire/utils/url.dart';
@@ -15,12 +15,13 @@ import 'package:wokonfire/utils/url.dart';
 class UserController extends GetxController {
   var modelUser = ModelUser().obs;
   var isLoading = false.obs;
+  var receivedOTP = "".obs;
 
   var arrOfAddress = List<ModelAddress>().obs;
 
-  void setModelUser(paramModelUser) {
+/*  void setModelUser(paramModelUser) {
     modelUser.value = paramModelUser;
-  }
+  }*/
 
   void getMyAccount(int i) async {
     Request request = Request(url: urlMyAccount + "?type=API&c_id=$userId");
@@ -35,7 +36,8 @@ class UserController extends GetxController {
           .toList();
 
       if (i == 1) {
-        Get.off(Home());
+        // Get.off(Home());
+        Get.off(GetCurrentLocation());
       }
 
       print("Successful");
@@ -60,7 +62,7 @@ class UserController extends GetxController {
     });
   }
 
-  void addUpdateAddress(
+  addUpdateAddress(
       String latitude, String longitude, String address, String actionType,
       [String addressId]) async {
     isLoading.value = true;
@@ -82,14 +84,35 @@ class UserController extends GetxController {
 
       final responseData = json.decode(value.body);
       if (responseData['status_code'] == 1) {
-        print("Success");
+        print("Success: Address Add/Update");
         showSnackBar("Success", responseData['message'], Colors.green);
         getMyAccount(0);
       } else {
-        print("Failed");
+        print("Failed : Address Add/Update");
         showSnackBar("Failed", responseData['message'], Colors.red);
       }
     }).catchError((onError) {
+      print("API Failed : Address Add/Update/Delete");
+      print(onError);
+    });
+  }
+
+  void getOTP(String mobileNo) async {
+    Request request = Request(url: urlSendOTP, body: {
+      'type': "API",
+      'mobile_number': mobileNo,
+    });
+    request.post().then((value) {
+      final responseData = json.decode(value.body);
+      if (responseData['status_code'] == 1) {
+        receivedOTP.value = responseData['otp'].toString();
+        modelUser.value = ModelUser.fromJson(responseData['data']);
+        userId = modelUser.value.cId.toString();
+      } else {
+        showSnackBar("Failed", responseData['message'], Colors.red);
+      }
+    }).catchError((onError) {
+      print("API Failed : Address Add/Update/Delete");
       print(onError);
     });
   }

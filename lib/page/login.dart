@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/utils/custom_color.dart';
+import 'package:wokonfire/utils/show_snackbar.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -11,6 +14,8 @@ class Login extends StatefulWidget {
 class _StateLogin extends State<Login> {
   var isOTPSent = false;
   var isValidate = true;
+  UserController _userController = Get.find();
+
   var tfMobileNumberController,
       tfOneController,
       tfTwoController,
@@ -141,6 +146,9 @@ class _StateLogin extends State<Login> {
                                   }
                                   setState(() {
                                     if (isValidate) {
+                                      _userController.getOTP(
+                                          tfMobileNumberController.text
+                                              .toString());
                                       isOTPSent = true;
                                     }
                                   });
@@ -412,9 +420,14 @@ class _StateLogin extends State<Login> {
                               color: Colors.transparent,
                               child: InkWell(
                                 onTap: () {
-                                  setState(() {
+                                  String enterOTP = getEnterOTP();
+                                  if (_userController.receivedOTP.value ==
+                                      enterOTP) {
                                     Navigator.pop(context, "YES");
-                                  });
+                                  } else {
+                                    showSnackBar("Mismatched",
+                                        "Please enter valid OTP", Colors.red);
+                                  }
                                 },
                                 child: Container(
                                   width: MediaQuery.of(context).size.width,
@@ -444,5 +457,14 @@ class _StateLogin extends State<Login> {
         ),
       ),
     );
+  }
+
+  String getEnterOTP() {
+    return tfOneController.text.toString() +
+        tfTwoController.text.toString() +
+        tfThreeController.text.toString() +
+        tfFourController.text.toString() +
+        tfFiveController.text.toString() +
+        tfSixController.text.toString();
   }
 }

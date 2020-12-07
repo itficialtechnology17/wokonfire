@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/model/model_cart.dart';
 import 'package:wokonfire/network/request.dart';
 import 'package:wokonfire/utils/url.dart';
@@ -15,14 +16,14 @@ class CartController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _apiGetCartItem();
+    apiGetCartItem();
   }
 
-  void _apiGetCartItem() async {
+  void apiGetCartItem() async {
     Request request = Request(url: urlGetCartItem, body: {
       'type': "API",
-      'c_id': "26",
-      'restaurant_id': "1",
+      'c_id': userId,
+      'restaurant_id': restaurantId,
     });
     request.post().then((value) {
       final responseData = json.decode(value.body);

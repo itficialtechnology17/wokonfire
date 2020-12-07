@@ -12,6 +12,7 @@ import 'package:wokonfire/utils/url.dart';
 
 class HomeController extends GetxController {
   var arrOfSlider = List<ModelSlider>().obs;
+  var selectedIndex = 0.obs;
   var arrOfDashboardTitle = List<ModelDashboardTitle>().obs;
   var currentPosition = 0.0.obs;
   final pageController = PageController();
@@ -579,8 +580,7 @@ class HomeController extends GetxController {
           .foodItems[childIndex]
           .foodId
           .toString(),
-      ''
-          '': customizationId,
+      'customization_id': customizationId,
     });
 
     request.post().then((value) {
