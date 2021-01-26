@@ -230,7 +230,8 @@ class _CouponView extends StatelessWidget {
             }
           }
         },
-        child: Obx(() => _cartController.couponCode.value.isEmpty
+        child: Obx(() => _cartController.couponCode.value != null &&
+                _cartController.couponCode.value.isEmpty
             ? Container(
                 padding: EdgeInsets.all(20.0),
                 child: Row(
@@ -266,7 +267,10 @@ class _CouponView extends StatelessWidget {
                         size: 20.0, color: Colors.grey[700]),
                     horizontalSpaceMedium(),
                     Text(
-                      _cartController.couponCode.value + ' APPLIED',
+                      _cartController.couponCode.value != null &&
+                              _cartController.couponCode.value.isNotEmpty
+                          ? _cartController.couponCode.value + ' APPLIED'
+                          : 'Coupon APPLIED'.toUpperCase(),
                       style: Theme.of(context)
                           .textTheme
                           .subtitle2
@@ -275,9 +279,17 @@ class _CouponView extends StatelessWidget {
                     Spacer(),
                     InkWell(
                       onTap: () {
-                        _cartController.couponCode.value = "";
+                        _cartController.apiRemoveCoupon();
                       },
-                      child: Icon(Icons.close, color: Colors.grey),
+                      child: _cartController.isApplyingOffer.value
+                          ? SizedBox(
+                              width: Get.height * 0.02,
+                              height: Get.height * 0.02,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : Icon(Icons.close, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -322,8 +334,10 @@ class _BillDetailView extends StatelessWidget {
                 ],
               ),
               Visibility(
-                visible:
-                    _cartController.couponCode.value.isEmpty ? false : true,
+                visible: _cartController.couponCode.value != null &&
+                        _cartController.couponCode.value.isEmpty
+                    ? false
+                    : true,
                 child: Column(
                   children: [
                     verticalSpaceMedium(),

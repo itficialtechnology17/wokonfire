@@ -1,10 +1,12 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/model/model_cart.dart';
 import 'package:wokonfire/network/request.dart';
+import 'package:wokonfire/utils/show_snackbar.dart';
 import 'package:wokonfire/utils/url.dart';
 
 class CartController extends GetxController {
@@ -77,6 +79,32 @@ class CartController extends GetxController {
       map['status_code'] = 1;
       map['message'] = "Opps! Something went wrong.";
       return map;
+    }
+  }
+
+  void apiRemoveCoupon() async {
+    isApplyingOffer.value = true;
+
+    final http.Response response = await http.post(
+      urlBase + urlRemoveCoupon,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'type': "API",
+        'c_id': userId,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      isApplyingOffer.value = false;
+      var responseData = jsonDecode(response.body);
+      if (responseData['status_code'] == 1) {
+        apiGetCartItem();
+      }
+    } else {
+      isApplyingOffer.value = false;
+      showSnackBar("Error", "Opps! Something went wrong.", Colors.red);
     }
   }
 

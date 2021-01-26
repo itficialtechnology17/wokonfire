@@ -17,3 +17,4 @@ const urlGetToken = 'paytm/create.php';
 const urlGetOffer = 'offers';
 const urlPaytmPayment = 'PaytmKit/TxnTest.php';
 const urlApplyCoupon = 'apply_coupon';
+const urlRemoveCoupon = 'remove_coupon';
