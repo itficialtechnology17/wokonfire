@@ -2,11 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/home_controller.dart';
+import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/checkout.dart';
+import 'package:wokonfire/utils/show_snackbar.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
-import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
 
 class CartTab extends StatelessWidget {
@@ -81,12 +83,12 @@ class CartTab extends StatelessWidget {
                 CustomDividerView(dividerHeight: 15.0),
                 _BillDetailView(),
                 _DecoratedView(),
-                _AddressPaymentView(),
               ],
             ),
           ),
         ),
       ),
+      bottomNavigationBar: _AddressPaymentView(),
     );
   }
 }
@@ -102,38 +104,48 @@ class _OrderView extends StatelessWidget {
           shrinkWrap: true,
           itemBuilder: (context, index) {
             return Container(
-              padding: const EdgeInsets.all(10.0),
+              padding: EdgeInsets.all(10),
               child: Column(
                 children: <Widget>[
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       Image.network(
-                        storageUrl + _cartController.arrOfCart[index].foodImage,
-                        height: Get.width * 0.25,
-                        width: Get.width * 0.25,
+                        _cartController.arrOfCart[index].foodImage == null ||
+                                _cartController.arrOfCart[index].foodImage == ""
+                            ? defaultImage
+                            : _cartController.arrOfCart[index].foodImage,
+                        height: Get.width * 0.15,
+                        width: Get.width * 0.20,
+                        fit: BoxFit.cover,
                       ),
                       horizontalSpaceSmall(),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            verticalSpaceSmall(),
+                            // verticalSpaceSmall(),
                             Text(_cartController.arrOfCart[index].foodName,
-                                style: Theme.of(context).textTheme.subtitle1),
+                                style: Theme.of(context).textTheme.subtitle2),
                             verticalSpaceSmall(),
                             RichText(
                               overflow: TextOverflow.fade,
                               text: TextSpan(
                                   text: _cartController
                                       .arrOfCart[index].customization,
-                                  style: Theme.of(context).textTheme.bodyText2),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .subtitle1
+                                      .copyWith(fontSize: 12)),
                             ),
                             verticalSpaceSmall(),
                             Text(
                                 'Rs. ' +
                                     _cartController.arrOfCart[index].finalPrice,
-                                style: Theme.of(context).textTheme.subtitle2),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .subtitle2
+                                    .copyWith(color: Colors.green)),
                             Row(
                               children: [
                                 Expanded(
@@ -195,22 +207,81 @@ class _OrderView extends StatelessWidget {
 }
 
 class _CouponView extends StatelessWidget {
+  CartController _cartController = Get.find();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        children: <Widget>[
-          Icon(Icons.local_offer, size: 20.0, color: Colors.grey[700]),
-          horizontalSpaceMedium(),
-          Text(
-            'APPLY COUPON',
-            style:
-                Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16.0),
-          ),
-          Spacer(),
-          Icon(Icons.keyboard_arrow_right, color: Colors.grey),
-        ],
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () async {
+          Map<String, dynamic> result = await Get.to(OffersScreen());
+          if (result != null) {
+            Map<String, dynamic> responseCoupon = await _cartController
+                .apiApplyCoupon(result['offerCode'], result['offerId']);
+            if (responseCoupon != null) {
+              if (responseCoupon['status_code'] == 1) {
+                showSnackBar(result['offerCode'],
+                    "Coupon code successfully applied.", Colors.green);
+                _cartController.apiGetCartItem();
+              } else {
+                showSnackBar("Error", responseCoupon['message'], Colors.green);
+              }
+            }
+          }
+        },
+        child: Obx(() => _cartController.couponCode.value.isEmpty
+            ? Container(
+                padding: EdgeInsets.all(20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.local_offer,
+                        size: 20.0, color: Colors.grey[700]),
+                    horizontalSpaceMedium(),
+                    Text(
+                      'APPLY COUPON',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(fontSize: 16.0),
+                    ),
+                    Spacer(),
+                    _cartController.isApplyingOffer.value
+                        ? SizedBox(
+                            width: Get.height * 0.02,
+                            height: Get.height * 0.02,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                            ),
+                          )
+                        : Icon(Icons.keyboard_arrow_right, color: Colors.grey),
+                  ],
+                ),
+              )
+            : Container(
+                padding: EdgeInsets.all(20.0),
+                child: Row(
+                  children: <Widget>[
+                    Icon(Icons.local_offer,
+                        size: 20.0, color: Colors.grey[700]),
+                    horizontalSpaceMedium(),
+                    Text(
+                      _cartController.couponCode.value + ' APPLIED',
+                      style: Theme.of(context)
+                          .textTheme
+                          .subtitle2
+                          .copyWith(fontSize: 16.0),
+                    ),
+                    Spacer(),
+                    InkWell(
+                      onTap: () {
+                        _cartController.couponCode.value = "";
+                      },
+                      child: Icon(Icons.close, color: Colors.grey),
+                    ),
+                  ],
+                ),
+              )),
       ),
     );
   }
@@ -223,6 +294,11 @@ class _BillDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     final textStyle =
         Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16.0);
+
+    final greenTextStyle = Theme.of(context)
+        .textTheme
+        .bodyText1
+        .copyWith(fontSize: 16.0, color: Colors.green);
 
     return Obx(() => Container(
           padding: const EdgeInsets.all(20.0),
@@ -244,6 +320,23 @@ class _BillDetailView extends StatelessWidget {
                   Text('Rs ' + _cartController.itemTotal.toString(),
                       style: textStyle),
                 ],
+              ),
+              Visibility(
+                visible:
+                    _cartController.couponCode.value.isEmpty ? false : true,
+                child: Column(
+                  children: [
+                    verticalSpaceMedium(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Discount', style: greenTextStyle),
+                        Text('Rs ' + _cartController.discount.toString(),
+                            style: greenTextStyle),
+                      ],
+                    ),
+                  ],
+                ),
               ),
               verticalSpaceMedium(),
               Row(
@@ -333,6 +426,7 @@ class _AddressPaymentView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
+          height: Get.height * 0.10,
           child: Column(
             children: <Widget>[
               Row(

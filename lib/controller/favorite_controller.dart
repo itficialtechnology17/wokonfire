@@ -67,7 +67,7 @@ class FavoriteController extends GetxController {
     });
   }
 
-  void openFavoriteTitle(int index, int nIndex, BuildContext context) {
+  void openFavoriteTitle(int index, BuildContext context, [int nIndex]) {
     isLoading.value = false;
 
     if (_homeController

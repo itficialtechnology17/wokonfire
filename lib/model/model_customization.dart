@@ -1,4 +1,4 @@
-import 'model_customization_value.dart';
+import 'package:wokonfire/model/model_customization_value.dart';
 
 class Customization {
   Customization({
@@ -11,6 +11,7 @@ class Customization {
     this.fcmType,
     this.isTypeSize,
     this.isCompulsory,
+    this.posist,
     this.fcvId,
     this.rlIdFk,
     this.fIdFk,
@@ -32,15 +33,16 @@ class Customization {
   int fcmType;
   String isTypeSize;
   int isCompulsory;
+  String posist;
   int fcvId;
   int rlIdFk;
   int fIdFk;
   int fcmIdFk;
   String fcvName;
   String fcvExtraPrice;
-  int fcvRank;
+  dynamic fcvRank;
   int fcvIsDefault;
-  String fcvStatus;
+  dynamic fcvStatus;
   List<CustomizationValue> customizationValues;
 
   factory Customization.fromJson(Map<String, dynamic> json) => Customization(
@@ -53,6 +55,7 @@ class Customization {
         fcmType: json["fcm_type"],
         isTypeSize: json["is_type_size"],
         isCompulsory: json["is_compulsory"],
+        posist: json["posist"],
         fcvId: json["fcv_id"],
         rlIdFk: json["rl_id_fk"],
         fIdFk: json["f_id_fk"],
@@ -77,6 +80,7 @@ class Customization {
         "fcm_type": fcmType,
         "is_type_size": isTypeSize,
         "is_compulsory": isCompulsory,
+        "posist": posist,
         "fcv_id": fcvId,
         "rl_id_fk": rlIdFk,
         "f_id_fk": fIdFk,

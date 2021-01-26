@@ -50,7 +50,7 @@ dependencies:
   lottie: ^0.7.0+1
   webview_flutter: ^0.3.19+9
   location: ^1.4.1
-
+  flutter_html: ^1.0.2
   geocoder: ^0.2.1
 
 

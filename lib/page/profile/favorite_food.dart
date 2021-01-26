@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/controller/favorite_controller.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
-import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/veg_badge_view.dart';
 
 class FavoriteFood extends StatelessWidget {
@@ -90,9 +90,28 @@ class FavoriteFood extends StatelessWidget {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: <Widget>[
-                                    Image.network(
+                                    /*Image.network(
                                       storageUrl +
                                           _favoriteController
+                                              .arrOfFavorite[index]
+                                              .favoriteList[nIndex]
+                                              .foodImage,
+                                      height: 130.0,
+                                      fit: BoxFit.fill,
+                                    ),*/
+                                    Image.network(
+                                      _favoriteController
+                                                      .arrOfFavorite[index]
+                                                      .favoriteList[nIndex]
+                                                      .foodImage ==
+                                                  null ||
+                                              _favoriteController
+                                                      .arrOfFavorite[index]
+                                                      .favoriteList[nIndex]
+                                                      .foodImage ==
+                                                  ""
+                                          ? defaultImage
+                                          : _favoriteController
                                               .arrOfFavorite[index]
                                               .favoriteList[nIndex]
                                               .foodImage,
@@ -187,7 +206,7 @@ class FavoriteFood extends StatelessWidget {
                                   child: InkWell(
                                     onTap: () {
                                       _favoriteController.openFavoriteTitle(
-                                          index, nIndex, context);
+                                          index, context, nIndex);
                                     },
                                     child: Padding(
                                       padding: EdgeInsets.all(4),

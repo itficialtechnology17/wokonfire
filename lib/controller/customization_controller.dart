@@ -1,24 +1,15 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:ionicons/ionicons.dart';
-import 'package:wokonfire/controller/home_controller.dart';
-import 'package:wokonfire/controller/search_controller.dart';
-import 'package:wokonfire/model/model_customization.dart';
-import 'package:wokonfire/model/model_customization_value.dart';
-import 'package:wokonfire/utils/ui_helper.dart';
 
 class CustomizationController extends GetxController {
   var isAddToCartLoading = false.obs;
 
   var finalPrice = 0.obs;
   var controllerType = 0.obs;
-  HomeController _homeController = Get.find();
-  SearchController _searchController = Get.find();
+
+  // SearchController _searchController = Get.find();
   int mIndex = 0;
   int nmIndex = 0;
-
+/*
   void openCustomization(int controllerType, int index, int nIndex) {
     mIndex = index;
     nmIndex = nIndex;
@@ -269,5 +260,5 @@ class CustomizationController extends GetxController {
             .customization[index] = _customization;
       }
     });
-  }
+  }*/
 }

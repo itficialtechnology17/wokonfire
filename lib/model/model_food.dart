@@ -1,6 +1,10 @@
+// To parse this JSON data, do
+//
+//     final modelFood = modelFoodFromJson(jsonString);
+
 import 'dart:convert';
 
-import 'model_customization.dart';
+import 'package:wokonfire/model/model_customization.dart';
 
 List<ModelFood> modelFoodFromJson(String str) =>
     List<ModelFood>.from(json.decode(str).map((x) => ModelFood.fromJson(x)));
@@ -19,18 +23,12 @@ class ModelFood {
     this.foodTypeId,
     this.foodSpiceType,
     this.jainAvailable,
-    this.frId,
-    this.fid,
-    this.rid,
-    this.commonPrice,
-    this.foodAvailable,
-    this.containerPrice,
-    this.containerId,
-    this.ftId,
-    this.ftName,
-    this.ftIcon,
+    this.foodPosistId,
+    this.dtId,
     this.finalPrice,
+    this.ftName,
     this.fdQty,
+    this.isFavorite,
     this.customization,
   });
 
@@ -39,22 +37,17 @@ class ModelFood {
   int foodCategoryId;
   String foodDesc;
   String foodImage;
-  int price;
+  String price;
   int foodTypeId;
-  int foodSpiceType;
+  dynamic foodSpiceType;
   int jainAvailable;
-  int frId;
-  int fid;
-  int rid;
-  dynamic commonPrice;
-  int foodAvailable;
-  dynamic containerPrice;
-  dynamic containerId;
-  int ftId;
-  String ftName;
-  dynamic ftIcon;
+  String foodPosistId;
+  int dtId;
   String finalPrice;
+  String ftName;
   int fdQty;
+  int isFavorite;
+  bool isLoading = false;
   List<Customization> customization;
 
   factory ModelFood.fromJson(Map<String, dynamic> json) => ModelFood(
@@ -62,23 +55,17 @@ class ModelFood {
         foodName: json["food_name"],
         foodCategoryId: json["food_category_id"],
         foodDesc: json["food_desc"],
-        foodImage: json["food_image"],
-        price: json["price"] == null ? null : json["price"],
+        foodImage: json["food_image"] == null ? null : json["food_image"],
+        price: json["price"],
         foodTypeId: json["food_type_id"],
         foodSpiceType: json["food_spice_type"],
         jainAvailable: json["jain_available"],
-        frId: json["fr_id"],
-        fid: json["fid"],
-        rid: json["rid"],
-        commonPrice: json["common_price"],
-        foodAvailable: json["food_available"],
-        containerPrice: json["container_price"],
-        containerId: json["container_id"],
-        ftId: json["ft_id"],
-        ftName: json["ft_name"],
-        ftIcon: json["ft_icon"],
+        foodPosistId: json["food_posist_id"],
+        dtId: json["dt_id"],
         finalPrice: json["final_price"],
+        ftName: json["ft_name"],
         fdQty: json["fd_qty"],
+        isFavorite: json["is_favorite"],
         customization: List<Customization>.from(
             json["customization"].map((x) => Customization.fromJson(x))),
       );
@@ -88,23 +75,17 @@ class ModelFood {
         "food_name": foodName,
         "food_category_id": foodCategoryId,
         "food_desc": foodDesc,
-        "food_image": foodImage,
-        "price": price == null ? null : price,
+        "food_image": foodImage == null ? null : foodImage,
+        "price": price,
         "food_type_id": foodTypeId,
         "food_spice_type": foodSpiceType,
         "jain_available": jainAvailable,
-        "fr_id": frId,
-        "fid": fid,
-        "rid": rid,
-        "common_price": commonPrice,
-        "food_available": foodAvailable,
-        "container_price": containerPrice,
-        "container_id": containerId,
-        "ft_id": ftId,
-        "ft_name": ftName,
-        "ft_icon": ftIcon,
+        "food_posist_id": foodPosistId,
+        "dt_id": dtId,
         "final_price": finalPrice,
+        "ft_name": ftName,
         "fd_qty": fdQty,
+        "is_favorite": isFavorite,
         "customization":
             List<dynamic>.from(customization.map((x) => x.toJson())),
       };

@@ -4,9 +4,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/controller/add_to_cart_controller.dart';
+import 'package:wokonfire/controller/offer_controller.dart';
 import 'package:wokonfire/model/model_dashboard_title.dart';
 import 'package:wokonfire/model/model_slider.dart';
 import 'package:wokonfire/network/request.dart';
+import 'package:wokonfire/page/customization_page.dart';
+import 'package:wokonfire/utils/show_snackbar.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/utils/url.dart';
 
@@ -14,6 +18,10 @@ class HomeController extends GetxController {
   var arrOfSlider = List<ModelSlider>().obs;
   var selectedIndex = 0.obs;
   var arrOfDashboardTitle = List<ModelDashboardTitle>().obs;
+  // CustomizationController _customizationController =
+  //     Get.put(CustomizationController());
+  AddToCartController _addToCartController = Get.put(AddToCartController());
+  OfferController _offerController = Get.put(OfferController());
   var currentPosition = 0.0.obs;
   final pageController = PageController();
   var finalPrice = "";
@@ -79,12 +87,10 @@ class HomeController extends GetxController {
                 }
             });
   }
-
+/*
   void addToCart(int index, [int nIndex]) {
     finalPrice = arrOfDashboardTitle[index].foodItems[nIndex].finalPrice;
-    if (arrOfDashboardTitle[index].foodItems[nIndex].customization.isNotEmpty) {
-      openCustomization(index, nIndex);
-    } else {
+    if (arrOfDashboardTitle[index].foodItems[nIndex].fdQty > 0) {
       ModelDashboardTitle modelDashboardTitle = arrOfDashboardTitle[index];
 
       modelDashboardTitle.foodItems[nIndex].fdQty =
@@ -94,8 +100,15 @@ class HomeController extends GetxController {
 
       print("Item Count After Add=" +
           arrOfDashboardTitle[index].foodItems[nIndex].fdQty.toString());
+    } else if (arrOfDashboardTitle[index]
+        .foodItems[nIndex]
+        .customization
+        .isNotEmpty) {
+      openCustomization(index, nIndex);
+    } else {
+      _apiAddToCart();
     }
-  }
+  }*/
 
   void openCustomization(int mIndex, int mnIndex) {
     showModalBottomSheet(
@@ -125,7 +138,10 @@ class HomeController extends GetxController {
                   ),
                   Center(
                     child: Text(
-                      "Add To Cart".toUpperCase(),
+                      arrOfDashboardTitle[mIndex]
+                          .foodItems[mnIndex]
+                          .foodName
+                          .toUpperCase(),
                       style: Theme.of(context).textTheme.subtitle2.copyWith(
                             fontSize: 18,
                           ),
@@ -192,13 +208,15 @@ class HomeController extends GetxController {
                             verticalSpaceSmall(),
                             //Max Selection==1 Radio Button
                             //else
-                            //Max Selection==1 CheckBox Button
-
-                            arrOfDashboardTitle[parentIndex]
-                                        .foodItems[childIndex]
+                            //Max Selection>1 CheckBox Button
+                            SizedBox(
+                              height: 8,
+                            ),
+                            arrOfDashboardTitle[mIndex]
+                                        .foodItems[mnIndex]
                                         .customization[index]
                                         .fcmMaxSelection ==
-                                    1
+                                    0
                                 ? ListView.separated(
                                     shrinkWrap: true,
                                     physics: NeverScrollableScrollPhysics(),
@@ -215,18 +233,6 @@ class HomeController extends GetxController {
                                         },
                                         child: Row(
                                           children: [
-                                            /*arrOfDashboardTitle[mIndex]
-                                                        .foodItems[mnIndex]
-                                                        .customization[index]
-                                                        .customizationValues[
-                                                            nIndex]
-                                                        .fcvIsDefault ==
-                                                    1
-                                                ? Icon(
-                                                    Icons.radio_button_checked,
-                                                    size: 25,
-                                                  )
-                                                : */
                                             arrOfDashboardTitle[mIndex]
                                                     .foodItems[mnIndex]
                                                     .customization[index]
@@ -413,7 +419,7 @@ class HomeController extends GetxController {
                     separatorBuilder: (context, index) {
                       return Container(
                         height: 1,
-                        margin: EdgeInsets.only(top: 16),
+                        margin: EdgeInsets.only(top: 24),
                         color: Colors.grey[200],
                       );
                     },
@@ -423,7 +429,7 @@ class HomeController extends GetxController {
                   ),
                   InkWell(
                       onTap: () {
-                        _apiAddToCart();
+                        // _apiAddToCart();
                       },
                       child: Obx(
                         () => Container(
@@ -567,6 +573,7 @@ class HomeController extends GetxController {
     }
   }
 
+/*
   void _apiAddToCart() async {
     isAddToCartLoading.value = true;
 
@@ -598,6 +605,43 @@ class HomeController extends GetxController {
       print(onError);
     });
   }
+*/
+
+/*
+  Future<int> _apiAddToCart() async {
+    isAddToCartLoading.value = true;
+
+    String customizationId = await getCustomizationId();
+
+    Request request = Request(url: urlManageFavoriteMaster, body: {
+      'type': "API",
+      'c_id': userId,
+      'r_id': restaurantId,
+      'f_id': arrOfDashboardTitle[parentIndex]
+          .foodItems[childIndex]
+          .foodId
+          .toString(),
+      'customization_id': customizationId,
+    });
+
+    request.post().then((value) {
+      isAddToCartLoading.value = false;
+
+      final responseData = json.decode(value.body);
+      if (responseData["status_code"] == 1) {
+        return responseData[''];
+      } else {
+        Get.snackbar("Failed", responseData["message"],
+            backgroundColor: Colors.red,
+            borderRadius: 3,
+            colorText: Colors.white);
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
+    return 0;
+  }
+*/
 
   getCustomizationId() {
     String customizationId = "";
@@ -641,5 +685,116 @@ class HomeController extends GetxController {
       }
     }
     return customizationId;
+  }
+
+  void handleAddToCart(int index, BuildContext context, [int nIndex]) async {
+    if (arrOfDashboardTitle[index].foodItems[nIndex].customization.isNotEmpty) {
+      // openCustomization(index, nIndex);
+      var result = await Navigator.of(context).push(
+        PageRouteBuilder(
+          opaque: false, // set to false
+          pageBuilder: (_, __, ___) => CustomizationPage.value(
+              arrOfDashboardTitle[index].foodItems[nIndex]),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            var begin = Offset(0.0, 1.0);
+            var end = Offset.zero;
+            var curve = Curves.ease;
+
+            var tween =
+                Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+
+            return SlideTransition(
+              position: animation.drive(tween),
+              child: child,
+            );
+          },
+        ),
+      );
+
+      if (result != null) {
+        if (result['result'] == "1") {
+          ModelDashboardTitle modelDashboardTitle = arrOfDashboardTitle[index];
+
+          modelDashboardTitle.foodItems[nIndex].fdQty =
+              modelDashboardTitle.foodItems[nIndex].fdQty + 1;
+
+          arrOfDashboardTitle[index] = modelDashboardTitle;
+        }
+      }
+    } else {
+      var result = await _addToCartController.apiAddToCart(
+          arrOfDashboardTitle[index].foodItems[nIndex].foodId.toString(), "");
+
+      if (result != null) {
+        if (result == 1) {
+          ModelDashboardTitle modelDashboardTitle = arrOfDashboardTitle[index];
+
+          modelDashboardTitle.foodItems[nIndex].fdQty =
+              modelDashboardTitle.foodItems[nIndex].fdQty + 1;
+
+          arrOfDashboardTitle[index] = modelDashboardTitle;
+        }
+      }
+    }
+  }
+
+  void handleRemoveToCart(int index, BuildContext context, [int nIndex]) async {
+    arrOfDashboardTitle[index].foodItems[nIndex].isLoading = true;
+
+    Map<String, dynamic> response =
+        await _addToCartController.apiRemoveFromCart(
+            arrOfDashboardTitle[index].foodItems[nIndex].foodId.toString());
+
+    arrOfDashboardTitle[index].foodItems[nIndex].isLoading = false;
+    if (response != null) {
+      if (response['status_code'] == 1) {
+        ModelDashboardTitle modelDashboardTitle = arrOfDashboardTitle[index];
+
+        modelDashboardTitle.foodItems[nIndex].fdQty =
+            modelDashboardTitle.foodItems[nIndex].fdQty - 1;
+
+        arrOfDashboardTitle[index] = modelDashboardTitle;
+        showSnackBar("Message", response['message'], Colors.green);
+      } else if (response['status_code'] == "2") {
+        showSnackBar("Notify", response['message'], Colors.yellow);
+      } else {
+        showSnackBar("Error", response['message'], Colors.red);
+      }
+    }
+  }
+
+  void _apiAddToCart(int index, int nIndex) async {
+    isAddToCartLoading.value = true;
+
+    String customizationId = await getCustomizationId();
+
+    Request request = Request(url: urlManageFavoriteMaster, body: {
+      'type': "API",
+      'c_id': userId,
+      'r_id': restaurantId,
+      'f_id': arrOfDashboardTitle[index].foodItems[nIndex].foodId.toString(),
+      'customization_id': customizationId,
+    });
+
+    request.post().then((value) {
+      isAddToCartLoading.value = false;
+
+      final responseData = json.decode(value.body);
+      if (responseData["status_code"] == 1) {
+        ModelDashboardTitle modelDashboardTitle = arrOfDashboardTitle[index];
+
+        modelDashboardTitle.foodItems[nIndex].fdQty =
+            modelDashboardTitle.foodItems[nIndex].fdQty + 1;
+
+        arrOfDashboardTitle[index] = modelDashboardTitle;
+      } else {
+        Get.snackbar("Failed", responseData["message"],
+            backgroundColor: Colors.red,
+            borderRadius: 3,
+            colorText: Colors.white);
+      }
+    }).catchError((onError) {
+      print(onError);
+    });
   }
 }

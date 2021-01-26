@@ -13,6 +13,9 @@ var restaurantId = "1";
 String avatarProfile =
     "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png";
 
+String defaultImage =
+    "https://pro2-bar-s3-cdn-cf6.myportfolio.com/555ca57bd31f10ad547d2beee300405e/007294ca-69b9-43be-b61e-19b2b46fd6bb_rw_1920.jpg?h=f908d3c2d92e7a0af88976ccfd72cc25";
+
 bool isStaging = true;
 
 String stagingCallback =

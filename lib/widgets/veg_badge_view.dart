@@ -5,8 +5,8 @@ class VegBadgeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(2.0),
-      height: 15.0,
-      width: 15.0,
+      height: 10.0,
+      width: 10.0,
       decoration: BoxDecoration(
         border: Border.all(color: Colors.green[800]),
       ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wokonfire/controller/add_to_cart_controller.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/customization_controller.dart';
 import 'package:wokonfire/controller/favorite_controller.dart';
@@ -31,7 +30,6 @@ class _StateHome extends State<Home> {
   SearchController _searchController = Get.put(SearchController());
   CustomizationController _customizationController =
       Get.put(CustomizationController());
-  AddToCartController _addToCartController = Get.put(AddToCartController());
 
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 

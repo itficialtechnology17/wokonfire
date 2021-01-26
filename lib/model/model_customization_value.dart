@@ -9,6 +9,7 @@ class CustomizationValue {
     this.fcvRank,
     this.fcvIsDefault,
     this.fcvStatus,
+    this.posist,
   });
 
   int fcvId;
@@ -17,9 +18,10 @@ class CustomizationValue {
   int fcmIdFk;
   String fcvName;
   String fcvExtraPrice;
-  int fcvRank;
+  dynamic fcvRank;
   int fcvIsDefault;
-  String fcvStatus;
+  dynamic fcvStatus;
+  String posist;
   bool isSelected = false;
 
   factory CustomizationValue.fromJson(Map<String, dynamic> json) =>
@@ -33,6 +35,7 @@ class CustomizationValue {
         fcvRank: json["fcv_rank"],
         fcvIsDefault: json["fcv_is_default"],
         fcvStatus: json["fcv_status"],
+        posist: json["posist"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -45,5 +48,6 @@ class CustomizationValue {
         "fcv_rank": fcvRank,
         "fcv_is_default": fcvIsDefault,
         "fcv_status": fcvStatus,
+        "posist": posist,
       };
 }

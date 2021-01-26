@@ -15,7 +15,6 @@ import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/location_picker.dart';
 import 'package:wokonfire/utils/shimmer_page.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
-import 'package:wokonfire/utils/url.dart';
 import 'package:wokonfire/widgets/custom_button.dart';
 import 'package:wokonfire/widgets/entry_field.dart';
 import 'package:wokonfire/widgets/veg_badge_view.dart';
@@ -167,12 +166,7 @@ class HomeTab extends StatelessWidget {
                     ),
                   ),
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => OffersScreen(),
-                      ),
-                    );
+                    Get.to(OffersScreen());
                   },
                 )
               ],
@@ -293,7 +287,7 @@ class HomeTab extends StatelessWidget {
                                   mainAxisSpacing: 16,
                                   crossAxisSpacing: 8,
                                   physics: NeverScrollableScrollPhysics(),
-                                  childAspectRatio: 0.7,
+                                  childAspectRatio: 2 / 3.2,
                                   children: List.generate(
                                     _homeController.arrOfDashboardTitle[index]
                                         .foodItems.length,
@@ -306,13 +300,27 @@ class HomeTab extends StatelessWidget {
                                                 CrossAxisAlignment.stretch,
                                             children: <Widget>[
                                               Image.network(
-                                                storageUrl +
-                                                    _homeController
+                                                _homeController
+                                                                .arrOfDashboardTitle[
+                                                                    index]
+                                                                .foodItems[
+                                                                    nIndex]
+                                                                .foodImage ==
+                                                            null ||
+                                                        _homeController
+                                                                .arrOfDashboardTitle[
+                                                                    index]
+                                                                .foodItems[
+                                                                    nIndex]
+                                                                .foodImage ==
+                                                            ""
+                                                    ? defaultImage
+                                                    : _homeController
                                                         .arrOfDashboardTitle[
                                                             index]
                                                         .foodItems[nIndex]
                                                         .foodImage,
-                                                height: 130.0,
+                                                height: 120.0,
                                                 fit: BoxFit.fill,
                                               ),
                                               verticalSpaceExtraSmall(),
@@ -326,15 +334,13 @@ class HomeTab extends StatelessWidget {
                                                         .arrOfDashboardTitle[
                                                             index]
                                                         .foodItems[nIndex]
-                                                        .ftName
+                                                        .foodName
                                                         .toUpperCase(),
                                                     style: Theme.of(context)
                                                         .textTheme
-                                                        .bodyText1
+                                                        .subtitle1
                                                         .copyWith(
-                                                          fontSize: 10.0,
-                                                          color:
-                                                              Colors.grey[700],
+                                                          fontSize: 13.0,
                                                         ),
                                                   ),
                                                   verticalSpaceExtraSmall(),
@@ -348,14 +354,16 @@ class HomeTab extends StatelessWidget {
                                                               .arrOfDashboardTitle[
                                                                   index]
                                                               .foodItems[nIndex]
-                                                              .foodName,
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .subtitle2
-                                                                  .copyWith(
-                                                                      fontSize:
-                                                                          13.0),
+                                                              .ftName,
+                                                          style: Theme.of(
+                                                                  context)
+                                                              .textTheme
+                                                              .bodyText1
+                                                              .copyWith(
+                                                                  fontSize:
+                                                                      10.0,
+                                                                  color: Colors
+                                                                      .black),
                                                         ),
                                                       ),
                                                     ],
@@ -387,121 +395,127 @@ class HomeTab extends StatelessWidget {
                                                         width: 16,
                                                       ),
                                                       Expanded(
-                                                        child: Obx(() => _homeController
-                                                                    .arrOfDashboardTitle[
-                                                                        index]
-                                                                    .foodItems[
-                                                                        nIndex]
-                                                                    .fdQty ==
-                                                                0
-                                                            ? InkWell(
-                                                                onTap: () {
-                                                                  _addToCartController
-                                                                      .addToCart(
-                                                                          0,
-                                                                          index,
-                                                                          nIndex);
-                                                                },
-                                                                child:
-                                                                    Container(
-                                                                  padding: const EdgeInsets
-                                                                          .symmetric(
-                                                                      vertical:
-                                                                          8.0,
-                                                                      horizontal:
-                                                                          25.0),
-                                                                  decoration:
-                                                                      BoxDecoration(
-                                                                    border: Border.all(
-                                                                        color: Colors
-                                                                            .grey),
-                                                                  ),
-                                                                  child: Center(
-                                                                    child: Text(
-                                                                      'ADD',
-                                                                      style: Theme.of(
-                                                                              context)
-                                                                          .textTheme
-                                                                          .subtitle2
-                                                                          .copyWith(
-                                                                              color: Colors.green),
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                              )
-                                                            : Container(
-                                                                padding: const EdgeInsets
-                                                                        .symmetric(
-                                                                    vertical:
-                                                                        4.0),
-                                                                decoration:
-                                                                    BoxDecoration(
-                                                                  border: Border.all(
-                                                                      color: Colors
-                                                                          .grey),
-                                                                ),
-                                                                child: Row(
-                                                                  children: <
-                                                                      Widget>[
-                                                                    SizedBox(
-                                                                      width: 8,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Center(
+                                                        child: Obx(() => Column(
+                                                              crossAxisAlignment:
+                                                                  CrossAxisAlignment
+                                                                      .end,
+                                                              children: [
+                                                                _homeController
+                                                                            .arrOfDashboardTitle[index]
+                                                                            .foodItems[nIndex]
+                                                                            .fdQty ==
+                                                                        0
+                                                                    ? InkWell(
+                                                                        onTap:
+                                                                            () {
+                                                                          _homeController.handleAddToCart(
+                                                                              index,
+                                                                              context,
+                                                                              nIndex);
+                                                                        },
                                                                         child:
-                                                                            InkWell(
-                                                                          child: Icon(
-                                                                              Icons.remove,
-                                                                              color: Colors.green),
-                                                                          onTap:
-                                                                              () {
-                                                                            _addToCartController.removeFromCart(
-                                                                                0,
-                                                                                index,
-                                                                                nIndex);
-                                                                          },
+                                                                            Container(
+                                                                          padding: const EdgeInsets.symmetric(
+                                                                              vertical: 8.0,
+                                                                              horizontal: 25.0),
+                                                                          decoration:
+                                                                              BoxDecoration(
+                                                                            border:
+                                                                                Border.all(color: Colors.grey),
+                                                                          ),
+                                                                          child:
+                                                                              Center(
+                                                                            child:
+                                                                                Text(
+                                                                              'ADD',
+                                                                              style: Theme.of(context).textTheme.subtitle2.copyWith(color: Colors.green),
+                                                                            ),
+                                                                          ),
+                                                                        ),
+                                                                      )
+                                                                    : Container(
+                                                                        padding:
+                                                                            const EdgeInsets.symmetric(vertical: 4.0),
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          border:
+                                                                              Border.all(color: Colors.grey),
+                                                                        ),
+                                                                        child:
+                                                                            Row(
+                                                                          children: <
+                                                                              Widget>[
+                                                                            SizedBox(
+                                                                              width: 8,
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: InkWell(
+                                                                                  child: _homeController.arrOfDashboardTitle[index].foodItems[nIndex].isLoading
+                                                                                      ? SizedBox(
+                                                                                          width: Get.height * 0.02,
+                                                                                          height: Get.height * 0.02,
+                                                                                          child: CircularProgressIndicator(
+                                                                                            strokeWidth: 2,
+                                                                                          ),
+                                                                                        )
+                                                                                      : Icon(Icons.remove, color: Colors.green),
+                                                                                  onTap: () {
+                                                                                    _homeController.handleRemoveToCart(index, context, nIndex);
+                                                                                  },
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 8,
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: Text(_homeController.arrOfDashboardTitle[index].foodItems[nIndex].fdQty.toString(), style: Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16.0)),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 8,
+                                                                            ),
+                                                                            Expanded(
+                                                                              child: Center(
+                                                                                child: InkWell(
+                                                                                  child: Icon(Icons.add, color: Colors.green),
+                                                                                  onTap: () {
+                                                                                    _homeController.handleAddToCart(index, context, nIndex);
+                                                                                  },
+                                                                                ),
+                                                                              ),
+                                                                            ),
+                                                                            SizedBox(
+                                                                              width: 8,
+                                                                            ),
+                                                                          ],
                                                                         ),
                                                                       ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 8,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Center(
-                                                                        child: Text(
-                                                                            _homeController.arrOfDashboardTitle[index].foodItems[nIndex].fdQty
-                                                                                .toString(),
-                                                                            style:
-                                                                                Theme.of(context).textTheme.subtitle2.copyWith(fontSize: 16.0)),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 8,
-                                                                    ),
-                                                                    Expanded(
-                                                                      child:
-                                                                          Center(
-                                                                        child:
-                                                                            InkWell(
-                                                                          child: Icon(
-                                                                              Icons.add,
-                                                                              color: Colors.green),
-                                                                          onTap:
-                                                                              () {
-                                                                            _homeController.addToCart(index,
-                                                                                nIndex);
-                                                                          },
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 8,
-                                                                    ),
-                                                                  ],
+                                                                SizedBox(
+                                                                  height: 4,
                                                                 ),
-                                                              )),
+                                                                Visibility(
+                                                                  visible: _homeController
+                                                                          .arrOfDashboardTitle[
+                                                                              index]
+                                                                          .foodItems[
+                                                                              nIndex]
+                                                                          .customization
+                                                                          .isEmpty
+                                                                      ? false
+                                                                      : true,
+                                                                  child: Text(
+                                                                    "Customization",
+                                                                    style: Theme.of(
+                                                                            context)
+                                                                        .textTheme
+                                                                        .bodyText2,
+                                                                  ),
+                                                                )
+                                                              ],
+                                                            )),
                                                       )
                                                     ],
                                                   )
@@ -521,7 +535,7 @@ class HomeTab extends StatelessWidget {
                                               onTap: () {
                                                 _favoriteController
                                                     .openFavoriteTitle(
-                                                        index, nIndex, context);
+                                                        index, context, nIndex);
                                               },
                                               child: Padding(
                                                 padding: EdgeInsets.all(4),
