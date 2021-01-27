@@ -47,17 +47,25 @@ class UserController extends GetxController {
   }
 
   void updateProfile() async {
+    isLoading.value = true;
     Request request = Request(url: urlUpdateProfile, body: {
       'type': "API",
-      'c_id': "26",
-      'name': modelUser.value.userName.toString(),
+      'c_id': userId,
+      'user_name': modelUser.value.userName.toString(),
       'email': modelUser.value.email.toString(),
     });
     request.post().then((value) {
+      isLoading.value = false;
       final responseData = json.decode(value.body);
-
+      if (responseData['status_code'] == 1) {
+        showSnackBar("Success", responseData['message'], Colors.green);
+      } else {
+        showSnackBar("Error", responseData['message'], Colors.red);
+      }
       print("Successful");
     }).catchError((onError) {
+      isLoading.value = false;
+      showSnackBar("Error", "Opps! something went wrong ", Colors.red);
       print(onError);
     });
   }

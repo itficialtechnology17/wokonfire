@@ -6,7 +6,11 @@ import 'package:get/get.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/page/order_details.dart';
+import 'package:wokonfire/page/paytm_payemt.dart';
+import 'package:wokonfire/page/profile/my_account.dart';
+import 'package:wokonfire/utils/show_snackbar.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
+import 'package:wokonfire/utils/utils.dart';
 
 class Checkout extends StatefulWidget {
   @override
@@ -26,6 +30,11 @@ class _StateCheckOut extends State<Checkout> {
   Widget build(BuildContext context) {
     final textStyle =
         Theme.of(context).textTheme.bodyText1.copyWith(fontSize: 16.0);
+
+    final textStyleGreen = Theme.of(context)
+        .textTheme
+        .bodyText1
+        .copyWith(fontSize: 16.0, color: Colors.green);
 
     return Scaffold(
       appBar: AppBar(
@@ -202,8 +211,11 @@ class _StateCheckOut extends State<Checkout> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text('Discount', style: textStyle),
-                Text('Rs ' + _cartController.itemTotal.toString(),
-                    style: textStyle),
+                Text(
+                    '- Rs ' + _cartController.couponCode.value == null
+                        ? '0'
+                        : '- Rs ' + _cartController.discount.toString(),
+                    style: textStyleGreen),
               ],
             ),
           ),
@@ -226,14 +238,19 @@ class _StateCheckOut extends State<Checkout> {
         child: InkWell(
           splashColor: Colors.white,
           onTap: () async {
-            /*var result = await Get.to(
-                PaytmPayment(_cartController.itemTotal.toString()));
-            if (result == "YES") {
-              Get.off(OrderDetails());
+            Map<String, dynamic> checkResponse = checkPaymentProcess();
+            if (checkResponse['code'] == 1) {
+              var result = await Get.to(PaytmPayment());
+              if (result == "YES") {
+                Get.off(OrderDetails());
+              } else {
+                showSnackBar("Failed", "Payment Failed", Colors.red);
+              }
             } else {
-              showSnackBar("Failed", "Payment Failed", Colors.red);
-            }*/
-            Get.off(OrderDetails());
+              Get.to(MyAccount(checkResponse['message']));
+            }
+
+            // Get.off(OrderDetails());
           },
           child: Container(
             alignment: Alignment.center,

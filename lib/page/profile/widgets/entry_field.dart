@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/utils/custom_color.dart';
 
 class EntryField extends StatefulWidget {
@@ -53,6 +55,7 @@ class _EntryFieldState extends State<EntryField> {
   bool showShadow = false;
   bool showBorder = false;
 
+  UserController _userController = Get.find();
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -77,6 +80,11 @@ class _EntryFieldState extends State<EntryField> {
                 showShadow = false;
               });
             },*/
+            onChanged: (value) {
+              if (widget.label == "Email Address") {
+                _userController.modelUser.value.email = value;
+              }
+            },
             onTap: () {
               if (widget.onTap != null) {
                 widget.onTap();

@@ -9,6 +9,7 @@ import 'package:wokonfire/offers/offer_screen.dart';
 import 'package:wokonfire/page/profile/favorite_food.dart';
 import 'package:wokonfire/page/profile/invite_friends.dart';
 import 'package:wokonfire/page/profile/my_account.dart';
+import 'package:wokonfire/page/profile/order_history.dart';
 import 'package:wokonfire/utils/shared_preference.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
@@ -25,6 +26,7 @@ class _StateProfileTab extends State<ProfileTab> {
     'My Account',
     'Favorite',
     'Offers',
+    'Orders',
     'Referrals',
     'Help',
   ];
@@ -33,6 +35,7 @@ class _StateProfileTab extends State<ProfileTab> {
     'Name, Email, Mobile Number & Address',
     'Favorites Food Item By Category',
     'Restaurant & Others Offers',
+    'View your order history',
     'Refer & Earn In Wallet',
     'FAQ & Links',
   ];
@@ -55,12 +58,14 @@ class _StateProfileTab extends State<ProfileTab> {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       if (index == 0) {
-                        Get.to(MyAccount());
+                        Get.to(MyAccount(""));
                       } else if (index == 1) {
                         Get.to(FavoriteFood());
                       } else if (index == 2) {
                         Get.to(OffersScreen());
                       } else if (index == 3) {
+                        Get.to(OrderHistory());
+                      } else if (index == 4) {
                         Get.to(InviteFriends());
                       }
                     },

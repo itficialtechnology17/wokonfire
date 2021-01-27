@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/customization_controller.dart';
@@ -21,12 +23,11 @@ class Home extends StatefulWidget {
 class _StateHome extends State<Home> {
   var iconWidth = 25.0;
   var iconHeight = 25.0;
-
+  CartController _cartController = Get.put(CartController());
   HomeController _homeController = Get.put(HomeController());
 
   FavoriteController _favoriteController = Get.put(FavoriteController());
 
-  CartController _cartController = Get.put(CartController());
   SearchController _searchController = Get.put(SearchController());
   CustomizationController _customizationController =
       Get.put(CustomizationController());
@@ -70,7 +71,38 @@ class _StateHome extends State<Home> {
                 title: Text('SEARCH'),
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.add_shopping_cart),
+                icon: Stack(
+                  children: <Widget>[
+                    new Icon(Icons.add_shopping_cart_sharp),
+                    new Positioned(
+                      right: 0,
+                      child: Container(
+                        padding: EdgeInsets.all(4),
+                        decoration: new BoxDecoration(
+                          color: Colors.red,
+                          shape: BoxShape.circle,
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 12,
+                          minHeight: 12,
+                        ),
+                        child: Visibility(
+                          visible: _cartController.arrOfCart.length > 0
+                              ? true
+                              : false,
+                          child: Text(
+                            _cartController.arrOfCart.length.toString(),
+                            style: new TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
                 title: Text('CART'),
               ),
               BottomNavigationBarItem(

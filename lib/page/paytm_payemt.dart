@@ -5,15 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/user_controller.dart';
+import 'package:wokonfire/utils/url.dart';
 
 class PaytmPayment extends StatefulWidget {
-  String amount = "";
-
-  PaytmPayment(_) {
-    amount = _;
-  }
-
   @override
   State<StatefulWidget> createState() {
     return _StatePaytmPayment();
@@ -23,6 +19,7 @@ class PaytmPayment extends StatefulWidget {
 class _StatePaytmPayment extends State<PaytmPayment> {
   var webUrl;
   UserController _userController = Get.find();
+  CartController _cartController = Get.find();
 
   bool _loadingPayment = true;
   String _responseStatus = STATUS_LOADING;
@@ -69,8 +66,14 @@ class _StatePaytmPayment extends State<PaytmPayment> {
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (controller) {
                   _webController = controller;
-                  _webController.loadUrl(
-                      "https://itficial.app/wokonfirenew/PaytmKit/TxnTest.php?amount=500&customer_id=26&email=test@gmail.com");
+                  _webController.loadUrl(urlBase +
+                      "PaytmKit/TxnTest.php?amount=" +
+                      _cartController.amountToPay.toString() +
+                      "&customer_id=" +
+                      userId.toString() +
+                      "&email=" +
+                      _userController.modelUser.value.email.toString() +
+                      "");
                 },
                 onPageFinished: (page) {
                   if (page.contains("/processTransaction")) {

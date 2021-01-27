@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/page/profile/widgets/entry_field.dart';
-import 'package:wokonfire/utils/show_snackbar.dart';
+import 'package:wokonfire/utils/shared_preference.dart';
 
 class MyAccount extends StatefulWidget {
+  final String message;
+  MyAccount(this.message);
+
   @override
   _StateMyAccount createState() => _StateMyAccount();
 }
@@ -24,6 +27,8 @@ class _StateMyAccount extends State<MyAccount> {
   @override
   void initState() {
     super.initState();
+    if (widget.message != null && widget.message.isNotEmpty)
+      showToast(widget.message);
 
     if (_userController.modelUser.value.contactNumber == null) {
       _userController.modelUser.value.contactNumber = "";
@@ -131,10 +136,35 @@ class _StateMyAccount extends State<MyAccount> {
                 SizedBox(
                   height: 10,
                 ),
-                Text(
-                  "My Addresses".toUpperCase(),
-                  style: Theme.of(context).textTheme.headline6.copyWith(
-                      fontSize: 16, letterSpacing: 1, color: Color(0xffa9a9a9)),
+                Row(
+                  children: [
+                    Text(
+                      "My Addresses".toUpperCase(),
+                      style: Theme.of(context).textTheme.headline6.copyWith(
+                          fontSize: 16,
+                          letterSpacing: 1,
+                          color: Color(0xffa9a9a9)),
+                    ),
+                    Spacer(),
+                    Material(
+                      color: Colors.transparent,
+                      type: MaterialType.circle,
+                      clipBehavior: Clip.hardEdge,
+                      child: InkWell(
+                        onTap: () {
+                          _userController.onClickManageAddress(
+                              context, "ADD", "");
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(4),
+                          child: Icon(
+                            Icons.add_box_outlined,
+                            color: Colors.green,
+                          ),
+                        ),
+                      ),
+                    )
+                  ],
                 ),
                 SizedBox(
                   height: 20,
@@ -255,14 +285,12 @@ class _StateMyAccount extends State<MyAccount> {
                 splashColor: Colors.grey,
                 borderRadius: BorderRadius.circular(24),
                 onTap: () {
-                  if (_userController.modelUser.value.userName ==
-                          _controllerName.text.toString() &&
-                      _userController.modelUser.value.contactNumber ==
-                          _controllerPhoneNumber.text.toString()) {
-                    showSnackBar(
-                        "Message",
-                        "You have not update any details".toUpperCase(),
-                        Colors.red);
+                  if (_userController.modelUser.value.userName == null &&
+                      _userController.modelUser.value.userName.isEmpty) {
+                    showToast("Please enter name");
+                  } else if (_userController.modelUser.value.email == null &&
+                      _userController.modelUser.value.email.isEmpty) {
+                    showToast("Please enter email");
                   } else {
                     _userController.updateProfile();
                   }
@@ -283,25 +311,18 @@ class _StateMyAccount extends State<MyAccount> {
                           ),
                         ),
                       )
-                    : InkWell(
-                        splashColor: Colors.white,
-                        onTap: () {
-                          _userController.onClickManageAddress(
-                              context, "ADD", "");
-                        },
-                        child: Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(24)),
-                          child: Center(
-                            child: Text(
-                              "Add Address ".toUpperCase(),
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w700,
-                              ),
-                              textAlign: TextAlign.left,
+                    : Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24)),
+                        child: Center(
+                          child: Text(
+                            "Update Profile".toUpperCase(),
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
                             ),
+                            textAlign: TextAlign.left,
                           ),
                         ),
                       ),
