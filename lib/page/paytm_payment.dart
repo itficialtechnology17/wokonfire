@@ -36,9 +36,9 @@ class _StatePaytmPayment extends State<PaytmPayment> {
       var decodedJSON = jsonDecode(data);
       Map<String, dynamic> responseJSON = jsonDecode(decodedJSON);
       if (responseJSON["STATUS"] == "TXN_SUCCESS") {
-        Navigator.pop(context, "YES");
+        Navigator.pop(context, responseJSON);
       } else if (responseJSON["STATUS"] == "TXN_FAILURE") {
-        Navigator.pop(context, "NO");
+        Navigator.pop(context, responseJSON);
       }
     });
   }
@@ -66,6 +66,12 @@ class _StatePaytmPayment extends State<PaytmPayment> {
                 javascriptMode: JavascriptMode.unrestricted,
                 onWebViewCreated: (controller) {
                   _webController = controller;
+                  /*_webController.loadUrl(urlBase +
+                      "PaytmKit/TxnTest.php?amount=10000&customer_id=" +
+                      userId.toString() +
+                      "&email=" +
+                      _userController.modelUser.value.email.toString() +
+                      "");*/
                   _webController.loadUrl(urlBase +
                       "PaytmKit/TxnTest.php?amount=" +
                       _cartController.amountToPay.toString() +

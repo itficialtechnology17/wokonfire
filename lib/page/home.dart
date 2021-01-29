@@ -6,7 +6,9 @@ import 'package:wokonfire/controller/cart_controller.dart';
 import 'package:wokonfire/controller/customization_controller.dart';
 import 'package:wokonfire/controller/favorite_controller.dart';
 import 'package:wokonfire/controller/home_controller.dart';
+import 'package:wokonfire/controller/order_controller.dart';
 import 'package:wokonfire/controller/search_controller.dart';
+import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/tab/cart_tab.dart';
 import 'package:wokonfire/tab/home_tab.dart';
 import 'package:wokonfire/tab/profile_tab.dart';
@@ -32,6 +34,9 @@ class _StateHome extends State<Home> {
   CustomizationController _customizationController =
       Get.put(CustomizationController());
 
+  OrderController _orderController = Get.put(OrderController());
+  UserController _userController = Get.find();
+
   var smallTextStyle = TextStyle(color: Colors.black, fontSize: 12);
 
   final List<Widget> _children = [
@@ -40,6 +45,14 @@ class _StateHome extends State<Home> {
     CartTab(),
     ProfileTab()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    if (_userController.arrOfAddress.isEmpty) {
+      _userController.getMyAccount(0);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -73,34 +86,36 @@ class _StateHome extends State<Home> {
               BottomNavigationBarItem(
                 icon: Stack(
                   children: <Widget>[
-                    new Icon(Icons.add_shopping_cart_sharp),
-                    new Positioned(
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(4),
-                        decoration: new BoxDecoration(
-                          color: Colors.red,
-                          shape: BoxShape.circle,
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 12,
-                          minHeight: 12,
-                        ),
-                        child: Visibility(
-                          visible: _cartController.arrOfCart.length > 0
-                              ? true
-                              : false,
+                    new Icon(Icons.shopping_bag_outlined),
+                    new Visibility(
+                      visible: _cartController.totalItemCount.value == 0
+                          ? false
+                          : true,
+                      child: Positioned(
+                        right: 0.0,
+                        top: -2,
+                        left: 12,
+                        child: Container(
+                          padding: EdgeInsets.all(4),
+                          decoration: new BoxDecoration(
+                            color: Colors.red,
+                            shape: BoxShape.circle,
+                          ),
+                          constraints: BoxConstraints(
+                            minWidth: 25,
+                            minHeight: 25,
+                          ),
                           child: Text(
-                            _cartController.arrOfCart.length.toString(),
+                            _cartController.totalItemCount.value.toString(),
                             style: new TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                            ),
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
                 title: Text('CART'),

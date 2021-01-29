@@ -18,6 +18,7 @@ class CartController extends GetxController {
   var couponCode = "".obs;
   var discount = 0.obs;
   var isApplyingOffer = false.obs;
+  var totalItemCount = 0.obs;
 
   @override
   void onInit() {
@@ -46,6 +47,7 @@ class CartController extends GetxController {
       discount.value = responseData['discount'];
 
       // countPayAmount();
+      countItemTotal();
       print("Successful");
     }).catchError((onError) {
       print(onError);
@@ -116,6 +118,14 @@ class CartController extends GetxController {
 
   void addAddMore(index) {
     arrOfCart[index].quantity += 1;
+  }
+
+  void countItemTotal() {
+    int count = 0;
+    for (int i = 0; i < arrOfCart.length; i++) {
+      count = count + arrOfCart[i].quantity;
+    }
+    totalItemCount.value = count;
   }
 
 /*  void countPayAmount() {

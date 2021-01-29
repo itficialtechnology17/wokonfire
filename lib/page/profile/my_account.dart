@@ -285,10 +285,10 @@ class _StateMyAccount extends State<MyAccount> {
                 splashColor: Colors.grey,
                 borderRadius: BorderRadius.circular(24),
                 onTap: () {
-                  if (_userController.modelUser.value.userName == null &&
+                  if (_userController.modelUser.value.userName == null ||
                       _userController.modelUser.value.userName.isEmpty) {
                     showToast("Please enter name");
-                  } else if (_userController.modelUser.value.email == null &&
+                  } else if (_userController.modelUser.value.email == null ||
                       _userController.modelUser.value.email.isEmpty) {
                     showToast("Please enter email");
                   } else {

@@ -17,11 +17,30 @@ class CartTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child:
-              /*_cartController.arrOfCart.isEmpty
+    return _cartController.arrOfCart.isEmpty
+        ? Scaffold(
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    "assets/images/ic_empty_food_cart.png",
+                    width: 100,
+                    height: 100,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Text("Your cart is empty."),
+                ],
+              ),
+            ),
+          )
+        : Scaffold(
+            body: SafeArea(
+              child: SingleChildScrollView(
+                child:
+                    /*_cartController.arrOfCart.isEmpty
                   ? Container(
                       height: Get.height,
                       child: Column(
@@ -71,25 +90,25 @@ class CartTab extends StatelessWidget {
                       ),
                     )
                   : */
-              Container(
-            margin: const EdgeInsets.only(top: 15.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                _OrderView(),
-                CustomDividerView(dividerHeight: 15.0),
-                _CouponView(),
-                CustomDividerView(dividerHeight: 15.0),
-                _BillDetailView(),
-                _DecoratedView(),
-              ],
+                    Container(
+                  margin: const EdgeInsets.only(top: 15.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      _OrderView(),
+                      CustomDividerView(dividerHeight: 15.0),
+                      _CouponView(),
+                      CustomDividerView(dividerHeight: 15.0),
+                      _BillDetailView(),
+                      _DecoratedView(),
+                    ],
+                  ),
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
-      bottomNavigationBar: _AddressPaymentView(),
-    );
+            bottomNavigationBar: _AddressPaymentView(),
+          );
   }
 }
 

@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:wokonfire/constant/constant_value.dart';
+import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/controller/user_controller.dart';
+import 'package:wokonfire/page/get_current_location.dart';
 import 'package:wokonfire/utils/custom_color.dart';
+import 'package:wokonfire/utils/shared_preference.dart';
 import 'package:wokonfire/utils/show_snackbar.dart';
 
 class Login extends StatefulWidget {
@@ -47,6 +51,7 @@ class _StateLogin extends State<Login> {
     return WillPopScope(
       onWillPop: () async {
         Navigator.pop(context, "NO");
+        return true;
       },
       child: Scaffold(
         body: Container(
@@ -423,7 +428,11 @@ class _StateLogin extends State<Login> {
                                   String enterOTP = getEnterOTP();
                                   if (_userController.receivedOTP.value ==
                                       enterOTP) {
-                                    Navigator.pop(context, "YES");
+                                    if (latitude.isEmpty) {
+                                      Navigator.pop(context, "YES");
+                                    } else {
+                                      onLoginSuccess();
+                                    }
                                   } else {
                                     showSnackBar("Mismatched",
                                         "Please enter valid OTP", Colors.red);
@@ -466,5 +475,13 @@ class _StateLogin extends State<Login> {
         tfFourController.text.toString() +
         tfFiveController.text.toString() +
         tfSixController.text.toString();
+  }
+
+  Future<void> onLoginSuccess() async {
+    userId = _userController.modelUser.value.cId.toString();
+    await addStringToSF(KEY_IS_USER_ID, userId);
+    await addBoolToSF(KEY_IS_LOGIN, true);
+    isLogin = true;
+    Get.offAll(GetCurrentLocation());
   }
 }

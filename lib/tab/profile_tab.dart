@@ -6,10 +6,11 @@ import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/offers/offer_screen.dart';
+import 'package:wokonfire/page/login.dart';
+import 'package:wokonfire/page/order_history.dart';
 import 'package:wokonfire/page/profile/favorite_food.dart';
 import 'package:wokonfire/page/profile/invite_friends.dart';
 import 'package:wokonfire/page/profile/my_account.dart';
-import 'package:wokonfire/page/profile/order_history.dart';
 import 'package:wokonfire/utils/shared_preference.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/widgets/custom_divider_view.dart';
@@ -145,12 +146,13 @@ class _StateProfileTab extends State<ProfileTab> {
       actions: <Widget>[
         new FlatButton(
           onPressed: () async {
-            Navigator.of(context, rootNavigator: true).pop('dialog');
+            // Navigator.of(context, rootNavigator: true).pop('dialog');
             await addBoolToSF(KEY_IS_LOGIN, false);
             isLogin = false;
-
+/*
             Navigator.pushNamedAndRemoveUntil(
-                context, "/LoginPage", (r) => false);
+                context, "/LoginPage", (r) => false);*/
+            Get.offAll(Login());
           },
           textColor: Colors.black,
           child: const Text('YES'),

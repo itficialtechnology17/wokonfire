@@ -83,6 +83,8 @@ class _EntryFieldState extends State<EntryField> {
             onChanged: (value) {
               if (widget.label == "Email Address") {
                 _userController.modelUser.value.email = value;
+              } else if (widget.label == "Full Name") {
+                _userController.modelUser.value.userName = value;
               }
             },
             onTap: () {

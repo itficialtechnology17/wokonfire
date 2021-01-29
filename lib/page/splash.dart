@@ -6,6 +6,7 @@ import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/constant/constants_key.dart';
 import 'package:wokonfire/controller/user_controller.dart';
 import 'package:wokonfire/page/locationlogin.dart';
+import 'package:wokonfire/page/login.dart';
 import 'package:wokonfire/utils/shared_preference.dart';
 
 class Splash extends StatefulWidget {
@@ -60,7 +61,13 @@ class _StateSplash extends State<Splash> {
       currentAddress = await getStringValuesSF(KEY_ADDRESS) ?? "Unknown";
       _userController.getMyAccount(1);
     } else {
-      Get.off(LocationLogin());
+      latitude = await getStringValuesSF(KEY_LATITUDE) ?? "";
+      longitude = await getStringValuesSF(KEY_LONGITUDE) ?? "";
+      if (latitude.isEmpty) {
+        Get.off(LocationLogin());
+      } else {
+        Get.off(Login());
+      }
     }
   }
 }

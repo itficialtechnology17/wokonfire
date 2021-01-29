@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:wokonfire/constant/constant_value.dart';
 import 'package:wokonfire/controller/favorite_controller.dart';
 import 'package:wokonfire/controller/search_controller.dart';
-import 'package:wokonfire/utils/shimmer_page.dart';
+import 'package:wokonfire/utils/search_shimmer_page.dart';
 import 'package:wokonfire/utils/ui_helper.dart';
 import 'package:wokonfire/widgets/veg_badge_view.dart';
 
@@ -19,7 +19,7 @@ class SearchTab extends StatelessWidget {
         child: Obx(() => Container(
               padding: EdgeInsets.all(12),
               child: _searchController.arrOfFood.isEmpty
-                  ? ShimmerPage()
+                  ? SearchShimmer()
                   : ListView(
                       shrinkWrap: true,
                       children: [
