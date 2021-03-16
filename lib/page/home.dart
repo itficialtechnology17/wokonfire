@@ -93,10 +93,11 @@ class _StateHome extends State<Home> {
                           : true,
                       child: Positioned(
                         right: 0.0,
-                        top: -2,
                         left: 12,
+                        top: -2,
                         child: Container(
-                          padding: EdgeInsets.all(4),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 4, vertical: 6),
                           decoration: new BoxDecoration(
                             color: Colors.red,
                             shape: BoxShape.circle,
@@ -109,7 +110,7 @@ class _StateHome extends State<Home> {
                             _cartController.totalItemCount.value.toString(),
                             style: new TextStyle(
                                 color: Colors.white,
-                                fontSize: 10,
+                                fontSize: Get.height * 0.015,
                                 fontWeight: FontWeight.bold),
                             textAlign: TextAlign.center,
                           ),

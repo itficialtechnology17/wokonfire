@@ -30,10 +30,14 @@ class ModelOrder {
     this.addedOn,
     this.cartIds,
     this.orderStatusText,
+    this.date,
+    this.time,
+    this.deliveryCharge,
     this.caLat,
     this.caLong,
     this.caMapAddress,
     this.data,
+    this.taxCharges,
   });
 
   int oId;
@@ -54,10 +58,14 @@ class ModelOrder {
   DateTime addedOn;
   String cartIds;
   String orderStatusText;
+  String date;
+  String time;
+  int deliveryCharge;
   double caLat;
   double caLong;
   String caMapAddress;
   List<Datum> data;
+  int taxCharges;
 
   factory ModelOrder.fromJson(Map<String, dynamic> json) => ModelOrder(
         oId: json["o_id"],
@@ -78,10 +86,14 @@ class ModelOrder {
         addedOn: DateTime.parse(json["added_on"]),
         cartIds: json["cart_ids"],
         orderStatusText: json["order_status_text"],
+        date: json["date"],
+        time: json["time"],
+        deliveryCharge: json["delivery_charge"],
         caLat: json["ca_lat"].toDouble(),
         caLong: json["ca_long"].toDouble(),
         caMapAddress: json["ca_map_address"],
         data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        taxCharges: json["tax_charges"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -103,10 +115,14 @@ class ModelOrder {
         "added_on": addedOn.toIso8601String(),
         "cart_ids": cartIds,
         "order_status_text": orderStatusText,
+        "date": date,
+        "time": time,
+        "delivery_charge": deliveryCharge,
         "ca_lat": caLat,
         "ca_long": caLong,
         "ca_map_address": caMapAddress,
         "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "tax_charges": taxCharges,
       };
 }
 
@@ -122,42 +138,58 @@ class Datum {
     this.offPhoto,
     this.quantity,
     this.fcvName,
+    this.rlName,
+    this.rlAddress,
+    this.rlLat,
+    this.rlLon,
   });
 
   String cOrderStatus;
   String foodName;
   String foodDesc;
-  String foodImage;
+  dynamic foodImage;
   String price;
   String offCode;
   String offTitle;
   String offPhoto;
   int quantity;
   String fcvName;
+  String rlName;
+  String rlAddress;
+  String rlLat;
+  String rlLon;
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         cOrderStatus: json["c_order_status"],
         foodName: json["food_name"],
         foodDesc: json["food_desc"],
-        foodImage: json["food_image"] == null ? null : json["food_image"],
+        foodImage: json["food_image"],
         price: json["price"],
         offCode: json["off_code"],
         offTitle: json["off_title"],
         offPhoto: json["off_photo"],
         quantity: json["quantity"],
         fcvName: json["fcv_name"] == null ? null : json["fcv_name"],
+        rlName: json["rl_name"],
+        rlAddress: json["rl_address"],
+        rlLat: json["rl_lat"],
+        rlLon: json["rl_lon"],
       );
 
   Map<String, dynamic> toJson() => {
         "c_order_status": cOrderStatus,
         "food_name": foodName,
         "food_desc": foodDesc,
-        "food_image": foodImage == null ? null : foodImage,
+        "food_image": foodImage,
         "price": price,
         "off_code": offCode,
         "off_title": offTitle,
         "off_photo": offPhoto,
         "quantity": quantity,
         "fcv_name": fcvName == null ? null : fcvName,
+        "rl_name": rlName,
+        "rl_address": rlAddress,
+        "rl_lat": rlLat,
+        "rl_lon": rlLon,
       };
 }
