@@ -72,7 +72,7 @@ class _StateCustomizationPage extends State<CustomizationPage> {
                       ),
                     ),
                     SizedBox(
-                      height: 8,
+                      height: 4,
                     ),
                     Text(
                       "Rs. " + foodItem.finalPrice.toUpperCase(),
